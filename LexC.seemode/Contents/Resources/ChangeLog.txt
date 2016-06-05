@@ -1,0 +1,58 @@
+Changes with Version 1.6.1
+    
+    *) syntax colouring:
+        - Tweaked GT style tag colouring
+
+Changes with Version 1.6
+    
+    *) syntax colouring:
+        - Added initial support for Apertium-style tags.
+
+Changes with Version 1.5
+    
+    *) syntax colouring:
+        - Corrected some errors regarding infostrings:
+            - empty infostrings caused the cont.lex to be uncoloured
+            - more than one whitespace char caused the cont.lex to be
+              uncoloured
+
+Changes with Version 1.4
+    
+    *) syntax colouring:
+        - smaller corrections regarding short upper and lower strings
+        - corrected border colouring
+        - first attempt at support for Flag diacritics - working, but
+          destroying upper/lower colouring if such context is present
+
+Changes with Version 1.3
+    
+    *) syntax colouring:
+        - multiple tags in a row are now coloured correctly and consistently
+
+Changes with Version 1.2
+    
+    *) syntax colouring:
+        - upper & lower: now also gets correctly coloured when
+          they contain %-escaped characters, such as spaces
+        - continuation lexicons: now also coloured when followed by
+          an info string
+
+Changes with Version 1.1
+    
+    *) EXTENSIONS: removed .txt, since too many files would match
+    *) syntax colouring: much improved, support for:
+        - upper
+        - continuation lexicons
+        - digraphs of the form [A-Z][1-9], e.g. X3
+        - triggers of the form %^[1-9]?[a-z]?[A-Z]+, e.g. %^DISIMPL
+        - borders %> and %»
+        - Multichar_Symbols
+        - tags of the form \+[\w/]+, e.g. +Sg or +Der/Pass
+    *) syntax colouring: hopefully better colours
+
+Know bugs as of 1.2:
+    *) symbols show up briefly on the symbols menu, but then disappear, and
+       are replaced by the string <No Selected Symbol>
+    *) the first lexicon after Multichar_Symbols is not coloured
+    *) flag diacritics causes miscolouring of the surrounding upper/lower
+    *) the colour scheme is probably not entirely standard, improvements welcome
