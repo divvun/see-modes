@@ -1,3 +1,7 @@
+Changes with Version 2.0
+
+    *) Update for SEE4
+
 Changes with Version 1.6.1
     
     *) syntax colouring:

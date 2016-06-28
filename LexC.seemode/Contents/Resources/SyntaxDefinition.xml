@@ -65,7 +65,7 @@
                 
         -->    
     
-        <default id="Base" color="#000" inverted-color="#fff">
+        <default id="Base" scope="meta.default">
 
             <!-- 
             The <keywords> tag specifies keyword groups within the current state.
@@ -92,15 +92,15 @@
                     no      Don't add to autocomplete dictionary
             -->    
 
-            <keywords id="Keywords" color="#1612ff" font-weight="bold" casesensitive="yes" useforautocomplete="yes">
+            <keywords id="Keywords" casesensitive="yes" useforautocomplete="yes" scope="keyword">
             
                 <!-- 
                     <string> tags specify plain text to be colored. If your tag does not
                     get colored, check in <charsintokens> if you are tokenizing correctly.             
                 -->    
             
-				<regex>(LEXICON)</regex>
-				<regex>(Multichar_Symbols)</regex>
+				<string>LEXICON</string>
+				<string>Multichar_Symbols</string>
 
                 <!-- 
                     <regex> tags specify regular expression to be colored. 
@@ -115,52 +115,52 @@
 
             </keywords>
 
-            <keywords id="Lexicon name" color="#400080" font-weight="bold">
+            <keywords id="Lexicon name" scope="language.variable">
                 <regex>LEXICON ([^\n\r\s]+)</regex>
             </keywords>
 
             <!-- % can be followed by: "*~ etc, add any missing symbol to the lists below: -->
-            <keywords id="Upper" color="#008080" font-weight="bold">
+            <keywords id="Upper" scope="string.symbol">
                 <regex>^\s*([\S &amp;&amp;[^:%+]]+(%[ :%"*!;~&gt;&lt;+-][\S &amp;&amp;[^:%+]]*)*)[:+]</regex>
             </keywords>
 
-            <keywords id="UpperLower" color="#008080" font-weight="bold">
+            <keywords id="UpperLower" scope="string.symbol">
                 <regex>^\s*([\S &amp;&amp;[^:%]]+(%[ :%"*!;~&gt;&lt;-][\S &amp;&amp;[^:%]]*)*)\s</regex>
             </keywords>
 
-            <keywords id="Lower" color="#132fd3" font-weight="bold">
+            <keywords id="Lower" scope="string.symbol">
                 <regex>[^%]:([\S &amp;&amp;[^%:]]*(%[ :%"*!;~&gt;&lt;-][\S &amp;&amp;[^%:]]*)*)[\s@]</regex>
             </keywords>
 
-            <keywords id="Continuation lexicon" color="#009900">
+            <keywords id="Continuation lexicon" scope="language.variable">
                 <regex>\s([\S]+)\s*;</regex>
             </keywords>
 
-            <keywords id="Continuation lexicon flush" color="#009900">
+            <keywords id="Continuation lexicon flush" scope="language.variable">
                 <regex>^([\S]+)\s*;</regex>
             </keywords>
 
-            <keywords id="Continuation lexicon with string" color="#009900">
+            <keywords id="Continuation lexicon with string" scope="language.variable">
                 <regex>\s([\w%>.@^#-]+)\s+"[^"]*"\s*;</regex>
             </keywords>
 
-            <keywords id="Tags" color="#fd382f" font-weight="bold">
+            <keywords id="Tags" scope="language.variable.string">
                 <regex>\+([\S&amp;&amp;[^:]]+)[\s\n\r:#]</regex>
             </keywords>
 
-            <keywords id="ApertiumTags" color="#fd382f" font-weight="bold">
+            <keywords id="ApertiumTags" scope="language.variable.string">
                 <regex>(%&lt;[A-Za-z0-9[^%]]+%&gt;)</regex>
             </keywords>
 
-            <keywords id="Triggers" color="#1c80ff" font-weight="bold">
+            <keywords id="Triggers" scope="language.variable.string">
                 <regex>(%\^[1-9]?[a-z]?[A-Z]+)</regex>
             </keywords>
 
-            <keywords id="Escaped Borders and tag prefix" color="#000" font-weight="bold">
+            <keywords id="Escaped Borders and tag prefix" scope="language.variable.string">
                 <regex>(%[&lt;>]|\+)</regex>
             </keywords>
 
-            <keywords id="Borders" color="#000" font-weight="bold">
+            <keywords id="Borders" scope="language.operator">
                 <regex>([«»#])</regex>
             </keywords>
 
@@ -171,70 +171,56 @@
                 <regex>(\@[PNRDCU]\S\@)</regex>
             </keywords-->
 
-            <keywords id="String" color="#fd382f">
+            <keywords id="String" scope="string">
                 <regex>"([^"]*)"</regex>
             </keywords>
 
-        </default>
-        
-        <!-- 
-            The <state> tag specifies a state other than the default state.
-            It features the same attributes as <default>.
-            It has to contain a <begin> and a <end> tag which in turn have to 
-            contain a <regex> tag. They can contain <keywords> tags like specified above.
-            
-            For example here a states for C blockcomments, C++ singleline comments and strings.
-            The strings state handles escaped quotes with a lookbehind regular expression 
-            (see a regex tutorial) and colors "foobar" with strings.
-        -->    
-
-
-        <state id="Comment" color="#236E25" font-style="italic">
-            <begin><regex>!</regex></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-
-        <!-- This one does work, but because it is a separate state, it destroys the context
-             conditions for Upper and Lower, causing those to fail in their colouring when
-             followed by flag diacritics. -->
-        <state id="Flag diacritics" color="#1c80ff">
-            <begin><regex>@</regex></begin>
-            <end><regex>@</regex></end>
-        </state>
-
-        <!--state id="String" color="#fd382f">
-            <begin><regex>"</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-        </state-->
-
-        <state id="MulticharSymbols" color="#fd382f">
-            <begin><regex>Multichar_Symbols</regex></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)LEXICON</regex></end>
-
-            <state id="CommentInMC" color="#236E25" font-style="italic">
+            <state id="Comment" scope="comment.line">
                 <begin><regex>!</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
-
-            <keywords id="Keywords" color="#1612ff" font-weight="bold" casesensitive="yes" useforautocomplete="yes">
-				<regex>(LEXICON)</regex>
-				<regex>(Multichar_Symbols)</regex>
-            </keywords>
-
-            <keywords id="DefinedTags" color="#fd382f" font-weight="bold">
-                <regex>(\+[\w/]+)[\s\n\r]</regex>
-            </keywords>
-
-            <keywords id="DefinedTriggers" color="#1c80ff" font-weight="bold">
-                <regex>(\%\^[\w/]+)[\s\n\r]</regex>
-            </keywords>
-
-            <keywords id="DefinedDigraphs" color="#fa8200" font-weight="bold">
-                <regex>\s([[:upper:][:lower:]'][1-9])</regex>
-            </keywords>
-
-        </state>
-
+    
+            <!-- This one does work, but because it is a separate state, it destroys the context
+                 conditions for Upper and Lower, causing those to fail in their colouring when
+                 followed by flag diacritics. -->
+            <state id="Flag diacritics" scope="string.symbol">
+                <begin><regex>@</regex></begin>
+                <end><regex>@</regex></end>
+            </state>
+    
+            <!--state id="String" color="#fd382f">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state-->
+    
+            <state id="MulticharSymbols" scope="keyword.directive">
+                <begin><regex>Multichar_Symbols</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)LEXICON</regex></end>
+    
+                <state id="CommentInMC" scope="comment.line">
+                    <begin><regex>!</regex></begin>
+                    <end><regex>[\n\r]</regex></end>
+                </state>
+    
+                <keywords id="DefinedSuffTags" useforautocomplete="yes" scope="language.variable.string">
+                    <regex>(\+[\w/-]+)[\s\n\r]</regex>
+                </keywords>
+    
+                <keywords id="DefinedPrefTags" useforautocomplete="yes" scope="language.variable.string">
+                    <regex>([\w/-]+\+)[\s\n\r]</regex>
+                </keywords>
+    
+                <keywords id="DefinedTriggers" useforautocomplete="yes" scope="language.variable.string">
+                    <regex>(\%\^[\w/]+)[\s\n\r]</regex>
+                </keywords>
+    
+                <keywords id="DefinedDigraphs" scope="language.variable.string">
+                    <regex>\s([[:upper:][:lower:]'][1-9])</regex>
+                </keywords>
+    
+            </state>
+        </default>
+        
     </states>
 
 </syntax>

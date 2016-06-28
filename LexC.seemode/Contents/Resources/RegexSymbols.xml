@@ -25,7 +25,7 @@
         The example shows an symbol name "First example" with the image SymbolM
         and an indentation of 1.
     -->    
-    <symbol id="Lexicons" image="SymbolL" indentation="0">
+    <symbol id="Lexicons" symbol="L" indentation="0">
         
         <!-- 
             The regex tag specifies the regular expression that is search for this
@@ -59,8 +59,8 @@
         -->
     </symbol>
 
-    <!--symbol id="Second Example" font-weight="bold" image="SymbolF" indentation="0">
-        <regex>foobar</regex>
-    </symbol-->
+    <symbol id="Multichars" symbol="M" indentation="0">
+        <regex>Multichar_Symbols</regex>
+    </symbol>
     
 </symbols>
