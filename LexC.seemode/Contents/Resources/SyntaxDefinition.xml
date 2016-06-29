@@ -50,18 +50,6 @@
         It features the following attributes, all optional if not noted otherwise:
             id
                 Has to be a unique string. Has to be specified.
-            color
-                a html comptible color in three or six letter hexadecimal format.
-                Used for text on bright document background colors.
-            inverted-color
-                a html comptible color in three or six letter hexadecimal format.
-                Used for text if a dark document background color is set.
-            font-weight
-                normal  Normal font-weight (default)
-                bold    Bold text in popup
-            font-style
-                normal  Normal font-weight (default)
-                italic  Bold text in popup
                 
         -->    
     
@@ -72,18 +60,6 @@
             It features the following attributes, all optional if not noted otherwise:
                 id
                     Has to be a unique string. Has to be specified.
-                color - #6C0540
-                    a html comptible color in three or six letter hexadecimal format.
-                    Used for text on bright document background colors.
-                inverted-color
-                    a html comptible color in three or six letter hexadecimal format.
-                    Used for text if a dark document background color is set.
-                font-weight
-                    normal  Normal font-weight (default)
-                    bold    Bold text in popup
-                font-style
-                    normal  Normal font-weight (default)
-                    italic  Bold text in popup
                 casesensitive
                     yes     This group is case sensitive (default)
                     no      Ignore case for the group
