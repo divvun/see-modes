@@ -1,0 +1,95 @@
+Ønskje:
+
+subethaeditmodus for output frå dis
+
+
+
+
+"<Vuosttaš>" <- farge 1 - ordform (raud)
+   -------
+	"vuosttaš" <- farge 2 - lemma (grøn)
+   ------
+	 <aux> <- farge 6 - subtags / POSsub (lyseblå)
+	 A Ord Attr <- farge 3 - morph (blå)
+	----
+	 @>N <- farge 4 - syntaks (fiolett)
+	 #1->2 <- farge 5 - dependens (raud)
+    ----
+
+
+"<boddu>"
+	"boddu" N Sg Nom @HNOUN #2->2 
+"<.>"
+	"." CLB #3->3 
+
+"<Manne>"
+	"manne" Adv @ADVL #1->5 
+"<ii>"
+	"ii" <aux> V IV Neg Ind Sg3 @FS-STA #2->2 
+"<leat>"
+	"leat" <aux> V IV Ind Prs ConNeg @ICL-STA #3->2 
+"<áviisa>"
+	"áviisa" N Sg Nom @<SPRED #4->4 
+"<boahtán>"
+	"boahtit" <mv> V IV PrfPrc @ICL-AUX< #5->3 
+"<?>"
+	"?" CLB #6->6 
+
+"<Maid>"
+	"maid" Interj @INTERJ #1->1 
+"<,>"
+	"," CLB #2->2 
+"<iigo>"
+	"ii" <aux> V IV Neg Ind Sg3 Qst @FS-STA #3->3 
+"<leat>"
+	"leat" <aux> V IV Ind Prs ConNeg @ICL-STA #4->3 
+"<boahtán>"
+	"boahtit" <mv> V IV PrfPrc @ICL-AUX< #5->4 
+"<?>"
+	"?" CLB #6->6 
+
+; more than one sub-POS tag - all should be coloured:
+ 	"liikot" <ill> <inf> <sub> <mv> V IV Ind Prs Pl3 @FS-ADVL #11->3 
+
+"<čiekčái>"
+	"čiekči" N Actor Sg Ill @<ADVL
+
+; with tracking and comments:
+"<skal>"
+	"skala" V Imp Sg @VMAIN MAP:749:r70 
+	"skula" V Ind Prs 3Sg @VAUX MAP:748:r69 
+;	"skula" V Ind Prs 1Sg REMOVE:553:test1 
+;	"skal" N Neu Sg Nom Indef @X MAP:838:r96 REMOVE:856:r97 
+;	"skal" N Neu Sg Acc Indef @<OBJ MAP:786:r78 REMOVE:931 
+
+"<myrkur>"
+	"myrkur" N Neu Sg Nom Indef @SUBJ> MAP:774:r74 
+;	"myrkur" N Neu Sg Acc Indef REMOVE:246:AVS2 
+;	"myrkur" A Msc Sg Nom Indef REMOVE:483:r35 
+
+; with error tags:
+"<Guđe>"
+	"guhte" Pron Interr Sg Gen &grm-missing-Ill
+"<latnjii>"
+        "latnja" N Sg Ill @ADVL 
+"<moai>"
+        "mun" Pron Pers Du1 Nom @SUBJ> 
+"<bidje>"
+        "bidjat" <acc_ill> <po_ala> V TV Ind Prs Du1 @+FMAINV 
+"<mu>"
+        "mun" Pron Pers Sg1 Gen @>N 
+"<TV>"
+        "TV" N ACR Sg Acc @<OBJ 
+"<^qst>"
+        "^sahka" QDL gosa_bidjat_TV &dia-hivsset
+
+"<Moai>"
+        "mun" Pron Pers Du1 Nom @SUBJ> 
+"<bidje>"
+        "bidjat" <acc_ill> <po_ala> V TV Ind Prs Du1 @+FMAINV 
+"<TV>"
+        "TV" N ACR Sg Acc @<OBJ 
+"<hivssegis>"
+        "hivsset" N Sg Loc @ADVL 
+"<.>"
+        "." CLB 

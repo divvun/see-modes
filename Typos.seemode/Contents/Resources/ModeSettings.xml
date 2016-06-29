@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <template>typos.txt</template>   <!-- Provide a template for File->new -->
+  <recognition>
+    <filename>typos.txt</filename>            <!-- Add filenames -->
+    <filename>regression.txt</filename>       <!-- Add filenames -->
+    <filename>hyph-regressions.txt</filename> <!-- Add filenames -->
+    <filename>speller-testbed.txt</filename>  <!-- Add filenames -->
+    <extension>txt</extension>                <!-- Add file extensions -->
+  </recognition>
+</settings>

@@ -1,0 +1,12 @@
+#Distributed under the terms of the GNU General Public License version 2 
+# or any later version.
+
+# typos.txt
+# This file contains common typos and their corrections separated by a
+# <tab> character, possibly followed by a comment:
+#
+# error<tab>correction<tab># comment
+#
+# Corrections that consist of two or more parts are not split
+# further in the preprocessor, because there is no way of knowing
+# whether the token is a multipart expression or not.

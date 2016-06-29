@@ -1,0 +1,44 @@
+Alphabet
+
+! The alphabet should contain all symbols which are used in the grammar.
+! Symbols consist of strings of utf-8 characters. Reserved words and white-space
+! need to be quoted using %.
+a b c d e f g h i j k l m n ŋ o p q r s š t u v w x y z ž å ä ö N:m N:n ;
+
+Sets
+Consonant = b c d f g h j k l m n ŋ p q r s š t v w x z ž m n ;
+Vow = a e i o u y å ä ö ;
+
+Definitions
+
+ClosedSyllable = :Vow+ [ ~:Vow ]+ ;
+
+Rules
+
+!The rules are taken from our North Sámi analyser. They are there merely to test
+! the syntax colouring, and are not necessarily complete or meaningful.
+
+! The following outcommented rule should not appear in the popup menu:
+
+!"Word Final Cluster Simplification 5"                 ! bearjadahka : bearjadat
+!  h:t <=> Vow _ ':0 [t:0 | k:0] (Hyph) #:  ;
+! Splitting WFCF 4 into 2 to handle the inserted ':0 symbol.
+! But this seems already covered by "Word Final Consonant Neutralization 1"
+
+"Word Final Double Consonant Simplification"          ! muitaluss : muitalus
+  Cy:0 <=> Vow Cx: _ ( %>: ) ( »: ) (Hyph) [ # | #: ]  ;
+            where Cx in (s š d ž)
+                  Cy in (s š d ž)
+            matched ;
+
+"d-deletion in compounding"
+  d:0 =>                _ ': j: Vow:0 W3: ;             ! vuod'ja:vuoj-
+                        _ d j Vow:0 W3: ;               ! áddjá:ádj-
+         [ l | j: | v ] _ [ m: | n: | ŋ: ] Vow:0 W3: ;  ! geaidnu:geain-
+                   Vow: _ d: Vow:0 W3: ;                ! gáddi:gád-
+
+"Postvocalic j Surfacing"
+  j:i <= _ [Cns | ( DummyNotY5: ) #: ] ;
+
+"Negated Postvocalic j Surfacing"
+  j:i /<= _ ~[Cns | ( DummyNotY5: ) #: ] ;
