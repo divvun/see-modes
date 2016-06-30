@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>1.0, Copyright Sjur Nørstebø Moshagen 2006</string>
+	<string>2.0, ©The Divvun Group at UiT 2007-2016, http://divvun.no/</string>
 	<key>CFBundleIdentifier</key>
 	<string>SEEMode.JSPWiki</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -13,12 +13,10 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-		<string>jspwiki</string>
-	</array>
+	<string>2.0</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>4.0</string>
 </dict>
 </plist>
