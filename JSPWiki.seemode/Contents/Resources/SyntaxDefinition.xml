@@ -28,31 +28,35 @@
             </keywords>
 
             <!-- JSPWiki emph -->
-            <keywords id="Emph inline">
-                <regex>'{2}([^']+)'{2}</regex>
-            </keywords>
+            <state id="Emph_inline" scope="keyword.directive">
+               <begin><regex>''</regex></begin>
+               <end><regex>''</regex></end>
+            </state>
+
             <!-- JSPWiki strong -->
-            <keywords id="Strong inline">
-                <regex>_{2}([^_]+)_{2}</regex>
-            </keywords>
+            <state id="Strong inline" scope="language.constant">
+               <begin><regex>__</regex></begin>
+               <end><regex>__</regex></end>
+            </state>
 
             <!-- Section headings -->
-            <keywords id="Section" useforautocomplete="no">
-                <regex>^!!!([^!].+$)</regex>
-            </keywords>
-             <keywords id="Subsection" useforautocomplete="no">
-                <regex>^!!([^!].+$)</regex>
-            </keywords>
-            <keywords id="SubSubsection" useforautocomplete="no">
-                <regex>^!([^!].+$)</regex>
-            </keywords>
+            <state id="Section" useforautocomplete="no" scope="language.variable">
+                <begin><regex>^!!!</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+             <state id="Subsection" useforautocomplete="no" scope="language.variable">
+                <begin><regex>^!![^!]</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            <state id="SubSubsection" useforautocomplete="no" scope="language.variable">
+                <begin><regex>^![^!]</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
 
             <!-- A naked URL. Other external linking is handled in a state
                  below 
                  -->
-            <keywords id="BareExtLink">
-                <regex>(http:\S+)</regex>
-            </keywords>
+            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
             <!-- Other Wiki-isms -->
             <keywords id="RandomThingies">
@@ -61,7 +65,7 @@
                 <regex>(ISBN [0-9]\S+)</regex>
             </keywords>
 
-            <state id="Source block" scope="language.record">
+            <state id="Source block" scope="language.subroutine.function">
                <begin><regex>\{\{\{</regex></begin>
                <end><regex>\}\}\}</regex></end>
             </state>
@@ -186,7 +190,7 @@
                 behavior with keywords (yet?). SEE doesn't let us nest states
                 for now...
                 -->
-           <state id="Lists">
+           <state id="Lists" scope="string.array.percent">
                <begin><regex>^[#*]{1,3}</regex></begin>
                <end><regex>[\n\r]\s*$</regex></end>
     
