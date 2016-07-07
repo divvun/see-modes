@@ -24,7 +24,7 @@
         The example shows an symbol name "First example" with the image SymbolM
         and an indentation of 1.
     -->    
-    <symbol id="Alphabet" symbol="A" indentation="0">
+    <symbol id="Alphabet" font-weight="bold" symbol="A" indentation="0">
         
         <!-- 
             The regex tag specifies the regular expression that is search for this
@@ -44,7 +44,7 @@
         <regex>Rule-variables</regex>
     </symbol>
 
-    <symbol id="Sets header" sfont-weight="bold" ymbol="S" indentation="0">
+    <symbol id="Sets header" font-weight="bold" symbol="S" indentation="0">
         <regex>Sets</regex>
     </symbol>
 
@@ -53,26 +53,15 @@
     </symbol>
 
     <symbol id="Rules header" font-weight="bold" symbol="R" indentation="0">
-        <regex>Rules</regex>
+        <regex>^[^!\w]*(Rules)</regex>
     </symbol>
 
     <symbol id="Sets and definitions" image="SymbolSD.png" indentation="1">
-        <regex>^\s*(\w+) =</regex>
+        <regex>^\s*(\w+)\s*=</regex>
     </symbol>
 
     <symbol id="Rules" image="SymbolR.png" indentation="1">
-        <regex>^\s*"([^"]+)"</regex>
-        <!-- 
-            The postprocess tag specifies the find and replaces that should
-            be executed on the found string. You can use groups like \1 and the
-            like. It contains a Ruby-flavored regular expression. 
-            This tag is optional.
-            
-         <postprocess>
-            <find>!"[^"]+"</find>
-            <replace>---</replace>
-        </postprocess>
-        -->
+        <regex>"([^"\n\r]+)"</regex>
    </symbol>
 
 </symbols>

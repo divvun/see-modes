@@ -55,18 +55,6 @@
         It features the following attributes, all optional if not noted otherwise:
             id
                 Has to be a unique string. Has to be specified.
-            color
-                a html comptible color in three or six letter hexadecimal format.
-                Used for text on bright document background colors.
-            inverted-color
-                a html comptible color in three or six letter hexadecimal format.
-                Used for text if a dark document background color is set.
-            font-weight
-                normal  Normal font-weight (default)
-                bold    Bold text in popup
-            font-style
-                normal  Normal font-weight (default)
-                italic  Bold text in popup
             usesymbolsfrommode
                 a mode name to use the symbol recognition from
                 when left out the value is inherited from the parent state
@@ -80,43 +68,19 @@
                 
         -->    
     
-        <default id="Base" color="#000" inverted-color="#fff">
+        <default id="Base" >
 
-            <!-- 
-            The <keywords> tag specifies keyword groups within the current state.
-            It features the following attributes, all optional if not noted otherwise:
-                id
-                    Has to be a unique string. Has to be specified.
-                color
-                    a html comptible color in three or six letter hexadecimal format.
-                    Used for text on bright document background colors.
-                inverted-color
-                    a html comptible color in three or six letter hexadecimal format.
-                    Used for text if a dark document background color is set.
-                font-weight
-                    normal  Normal font-weight (default)
-                    bold    Bold text in popup
-                font-style
-                    normal  Normal font-weight (default)
-                    italic  Bold text in popup
-                casesensitive
-                    yes     This group is case sensitive (default)
-                    no      Ignore case for the group
-                useforautocomplete
-                    yes     Add this group's strings to the autocomplete dictionary (default)
-                    no      Don't add to autocomplete dictionary
-            -->    
 
-            <keywords id="Rule headers" color="#00F" inverted-color="#fff" font-weight="bold" font-style="normal">
+            <keywords id="Rule headers" scope="string">
                 <!-- 
                     <regex> tags specify regular expression to be colored. 
                     Only the first group will be colored, so enclose the part to color
                     with parens.
                 -->    
-                <regex>\"([^\"]+)\"</regex>
+                <regex>\"([^\"\n\r]+)\"</regex>
             </keywords>
             
-            <keywords id="Other keywords" color="#400080" font-weight="bold" font-style="italic">
+            <keywords id="Other keywords" scope="keyword">
                 <!-- 
                     <string> tags specify plain text to be colored. If your tag does not
                     get colored, check in <charsintokens> if you are tokenizing correctly.             
@@ -133,7 +97,7 @@
               <string>mixed</string>
             </keywords>
 
-            <keywords id="Operators" color="#f92200" font-weight="bold">
+            <keywords id="Operators" scope="language.operator">
               <string>_</string>
               <regex> (=>) </regex>
               <regex> (&lt;=>) </regex>
@@ -141,17 +105,9 @@
               <regex> (/&lt;=) </regex>
             </keywords>
 
-
-            <!-- 
-                The <state> tag specifies a state other than the default state.
-                It features the same attributes as <default>.
-                It has to contain a <begin> and a <end> tag which in turn have to 
-                contain a <regex> tag. They can contain <keywords> tags like specified above.
-            -->    
     
-    
-            <state id="SingleComment" color="#236E25" font-style="italic">
-                <begin><regex>[^%]!</regex></begin>
+            <state id="SingleComment" scope="comment.line">
+                <begin><regex>!</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
