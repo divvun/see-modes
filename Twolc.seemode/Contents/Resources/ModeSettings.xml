@@ -3,7 +3,6 @@
   <template>twolc-template.twolc</template>   <!-- Provide a template for File->new -->
   <recognition>
     <extension>twolc</extension>                 <!-- Add file extensions -->
-    <extension casesensitive="yes">C</extension> <!-- Add case sensitive file extensions -->
     <filename>*twolc*</filename>                 <!-- Add filenames -->
     <regex>\A[.\n\r]*Alphabet[.\n\r]*Sets[.\n\r]*Definitions[.\n\r]*Rules?perl</regex>      <!-- Add regex of content -->
   </recognition>
