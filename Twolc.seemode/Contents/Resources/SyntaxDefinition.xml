@@ -97,7 +97,7 @@
               <string>mixed</string>
             </keywords>
 
-            <keywords id="Operators" scope="language.operator">
+            <keywords id="Operators" scope="language.operator.special">
               <string>_</string>
               <regex> (=>) </regex>
               <regex> (&lt;=>) </regex>
@@ -105,7 +105,18 @@
               <regex> (/&lt;=) </regex>
             </keywords>
 
+            <keywords id="LeftSide" scope="string">
+              <regex>\s*(\w+):\w+ /?&lt;=</regex>
+            </keywords>
+
+            <keywords id="RightSide" scope="language.subroutine.function">
+              <regex>\s*\w+:(\w+) /?&lt;=</regex>
+            </keywords>
     
+            <keywords id="FirstContext" scope="language.subroutine.method">
+              <regex>&lt;?=>?(.+);</regex>
+            </keywords>
+
             <state id="SingleComment" scope="comment.line">
                 <begin><regex>!</regex></begin>
                 <end><regex>[\n\r]</regex></end>
