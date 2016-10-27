@@ -1,3 +1,9 @@
+Changes with Version 2.1.1
+
+    *) The LexC styling function is now feature complete:
+       - also outcommented lexc lines will be reformatted
+       - bug fix: lines with no initial whitespace will be reformatted
+
 Changes with Version 2.1
 
     *) Initial support for an AppleScript+Python combo to reformat LexC code
