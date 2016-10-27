@@ -1,15 +1,11 @@
 -- see settings
 on seescriptsettings()
 	
-	return {displayName:"LexC Giella Style", shortDisplayName:"LexC", keyboardShortcut:"^~@l", toolbarIcon:"ToolbarIconRunInTerminal", inDefaultToolbar:"yes", toolbarTooltip:"Apply LexC Giella Styling", inContextMenu:"yes"}
+	return {displayName:"LexC Giella Style", keyboardShortcut:"^~@l", inContextMenu:"yes"}
 	
 	-- Here is a overview of currently supported settings
 	-- displayName: Name displayed in menus
-	-- shortDisplayName: The short display name used for Toolbar
 	-- keyboardShortcut: A keyboard shortcut. alt=~, ctrl=^, shift=$, cmd=@
-	-- toolbarIcon: A toolbar image
-	-- inDefaultToolbar: Should be in default toolbar?
-	-- toolbarTooltip: Tooltip for the toolbar icon
 	-- inContextMenu: Should it appear in the ctrl-click menu?
 	
 end seescriptsettings
