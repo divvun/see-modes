@@ -1,3 +1,8 @@
+Changes with Version 2.1.4
+
+    *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
+       to align <> constructs in lexc better alignment.
+
 Changes with Version 2.1.3
 
     *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
