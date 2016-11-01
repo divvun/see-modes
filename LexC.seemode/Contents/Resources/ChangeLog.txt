@@ -1,3 +1,8 @@
+Changes with Version 2.1.5
+
+    *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
+       to fix a small bug where the final newline disappeared.
+
 Changes with Version 2.1.4
 
     *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
