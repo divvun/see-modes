@@ -1,3 +1,9 @@
+Changes with Version 2.1.6
+
+    *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
+       to fix a bug where the space after % disappeared, and thus created
+       illegal lexc.
+
 Changes with Version 2.1.5
 
     *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
