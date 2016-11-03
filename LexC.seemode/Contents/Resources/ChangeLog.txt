@@ -1,3 +1,9 @@
+Changes with Version 2.1.7
+
+    *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
+       to fix a bug where %-escaped spaces caused the lexc string up to the %
+       character to disappear.
+
 Changes with Version 2.1.6
 
     *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py

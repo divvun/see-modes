@@ -220,6 +220,30 @@ uff:puf Contlex;
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
+    def test_line_multiple_percent_space(self):
+        input = u'''
+LEXICON GOAHTILONGSHORT !!= * __@CODE@__ Sometimes long nom-compound-forms, long gen
+ +N:%> GOAHTILONGSHORTCMP ;
+ +N+Sg+Nom: K ;
+< "+N":0 "+Sg":0 "+Nom":%> "@R.Nom3Px.add@" > NPx3V ;
+ +N+Der+Der/viđá+Adv+Use/-PLX:»X7% viđá%  K ;
+ +N+Der+Der/viđi+Adv+Use/-PLX:»X7viđi K ;
+'''
+
+        expected_result = u'''
+LEXICON GOAHTILONGSHORT !!= * __@CODE@__ Sometimes long nom-compound-forms, long gen
+                                            +N:%>          GOAHTILONGSHORTCMP ;
+                                     +N+Sg+Nom:            K                  ;
+ < "+N":0 "+Sg":0 "+Nom":%> "@R.Nom3Px.add@" >             NPx3V              ;
+                  +N+Der+Der/viđá+Adv+Use/-PLX:»X7% viđá%  K                  ;
+                  +N+Der+Der/viđi+Adv+Use/-PLX:»X7viđi     K                  ;
+'''
+        self.maxDiff = None
+        l = Lines()
+        l.parse_lines(input.split(u'\n'))
+
+        self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
+
 
 class TestLine(unittest.TestCase):
 
@@ -340,11 +364,23 @@ class TestLine(unittest.TestCase):
     def test_line_parser_lower_ends_with_percent(self):
         l = Lines()
         input = l.lexc_line_re.search(
-            u'abb:babb%  ContLex ;')
+            u'abb:babb%¥ ContLex ;')
 
         expected_result = {u'contlex': u'ContLex',
                            u'upper': u'abb',
                            u'lower': u'babb% ',
+                           u'divisor': u':',}
+
+        self.assertDictEqual(parse_line(input), expected_result)
+
+    def test_line_parser_multiple_percent_space(self):
+        l = Lines()
+        input = l.lexc_line_re.search(
+            u'+N+Der+Der/viđá+Adv+Use/-PLX:»X7%¥viđá%¥ K ;')
+
+        expected_result = {u'contlex': u'K',
+                           u'upper': u'+N+Der+Der/viđá+Adv+Use/-PLX',
+                           u'lower': u'»X7% viđá% ',
                            u'divisor': u':',}
 
         self.assertDictEqual(parse_line(input), expected_result)
@@ -370,6 +406,7 @@ class Lines(object):
     def parse_lines(self, lines):
         for line in lines:
             line = line.rstrip()
+            line = line.replace(u'% ', u'%¥')
             lexc_line_match = self.lexc_line_re.search(line)
             if lexc_line_match and not line.startswith('LEXICON '):
                 l = parse_line(lexc_line_match)
@@ -443,13 +480,16 @@ def parse_line(old_match):
 
     line_dict[u'contlex'] = old_match.group(u'contlex')
     if old_match.group(u'translation'):
-        line_dict[u'translation'] = old_match.group(u'translation').strip()
+        line_dict[u'translation'] = old_match.group(
+            u'translation').strip().replace(u'%¥', u'% ')
 
     if old_match.group(u'comment'):
-        line_dict[u'comment'] = old_match.group(u'comment').strip()
+        line_dict[u'comment'] = old_match.group(
+            u'comment').strip().replace(u'%¥', u'% ')
 
     line = old_match.group('content')
     if line:
+        line = line.replace(u'%¥', u'% ')
         if line.startswith(u'<') and line.endswith(u'>'):
             line_dict[u'upper'] = line
         else:
@@ -461,7 +501,6 @@ def parse_line(old_match):
                 line_dict[u'lower'] = line[lexc_line_match + 1:].strip()
                 if line_dict[u'lower'].endswith('%'):
                    line_dict[u'lower'] = line_dict[u'lower'] + u' '
-
             else:
                 if line.strip():
                     line_dict[u'upper'] = line.strip()
@@ -507,5 +546,5 @@ if __name__ == u'__main__':
 
     with open(args.lexcfile, u'w') if args.lexcfile is not "-" \
             else sys.stdout as f:
-        f.write('\n'.join(newlines))
-        f.write('\n')
+        f.write(u'\n'.join(newlines))
+        f.write(u'\n')
