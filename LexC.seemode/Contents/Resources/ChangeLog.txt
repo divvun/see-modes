@@ -1,3 +1,9 @@
+Changes with Version 2.1.8
+
+    *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
+       to fix a bug with the regular expression for parsing lexc that caused
+       some continuation lexicon names to be split in two.
+
 Changes with Version 2.1.7
 
     *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py
