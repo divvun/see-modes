@@ -2,19 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSHumanReadableCopyright</key>
+	<string>2.0, ©The Divvun Group at UiT 2007-2017, http://divvun.no/</string>
 	<key>CFBundleIdentifier</key>
-	<string>SEEMode.cg</string>
+	<string>SEEMode.Divvun.cgfiles</string>
 	<key>CFBundleName</key>
 	<string>Constraint Grammar</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.01</string>
+	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>1.01</string>
-	<key>CFBundleGetInfoString</key>
-	<string>1.01, Copyright Sjur Nørstebø Moshagen 2007</string>
+	<string>2.0</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>4.0</string>
 </dict>
 </plist>

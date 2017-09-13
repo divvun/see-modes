@@ -2,8 +2,9 @@
 <!DOCTYPE syntax SYSTEM "settings.dtd">
 <settings>
     <recognition>
+        <extension>cg</extension>                <!-- Add file extensions -->
         <extension>cg3</extension>                <!-- Add file extensions -->
         <extension>rle</extension>                <!-- Add file extensions -->
-        <regex>DELIMITERS </regex>                <!-- Add regex of content -->
+        <regex>DELIMITERS</regex>                <!-- Add regex of content -->
     </recognition>
 </settings>

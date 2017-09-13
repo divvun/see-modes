@@ -18,7 +18,7 @@
         This tag is optional.
         -->    
 
-        <name>XFST Syntax</name>
+        <name>Constraint Grammar Syntax</name>
 
         <!-- 
         The <charsintokens> and the <charsdelimitingtokens> instruct the syntax highlighter
@@ -30,7 +30,7 @@
         -->    
 
         <charsintokens>
-            <![CDATA[_0987654321-abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]>
+            <![CDATA[_0987654321-aábcčdđefghijklmnŋopqrsštŧuvwxyzžæäøöåAÁBCČDĐEFGHIJKLMNŊOPQRSŠTŦUVWXYZŽÆÄØÖÅ@% ]]>
         </charsintokens> 
         <!-- <charsdelimitingtokens>[CDATA[ -]]></charsdelimitingtokens> -->
     </head>
@@ -65,7 +65,7 @@
                 
         -->    
     
-        <default id="Base" color="#000" inverted-color="#fff">
+        <default id="Base" scope="meta.default">
 
             <!-- 
             The <keywords> tag specifies keyword groups within the current state.
@@ -92,7 +92,7 @@
                     no      Don't add to autocomplete dictionary
             -->    
 
-            <keywords id="Keywords" color="#1612ff" font-weight="bold">
+            <keywords id="Keywords" casesensitive="yes" useforautocomplete="yes" scope="keyword">
             
                 <!-- 
                     <string> tags specify plain text to be colored. If your tag does not
@@ -174,7 +174,7 @@
 
             </keywords>
 
-            <keywords id="Mapped error tags" color="#400080" font-weight="bold">
+            <keywords id="Mapped error tags" scope="language.variable">
 				<regex>\((&amp;[^\s\)]+)\)</regex>
             </keywords>
 
@@ -192,12 +192,12 @@
         -->    
 
 
-        <state id="Comment" color="#236E25" font-style="italic">
+        <state id="Comment" scope="comment.line">
             <begin><regex>(?:!|^#|[^.]#[^.])</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>
 
-        <state id="String" color="#fd382f">
+        <state id="String" scope="string">
             <begin><regex>"</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
