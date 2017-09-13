@@ -65,7 +65,7 @@
                 
         -->    
     
-        <default id="Base" color="#000" inverted-color="#fff">
+        <default id="Base" scope="meta.default">
 
             <!-- 
             The <keywords> tag specifies keyword groups within the current state.
@@ -114,15 +114,15 @@
             </keywords>
                 -->    
 
-            <keywords id="SpellingError" color="#ff1100">
+            <keywords id="SpellingError" scope="meta.important">
                 <regex>^([^\t]+)\t[^\t]</regex>
             </keywords>
 
-            <keywords id="SpellingErrorCorrection" color="#14952e">
+            <keywords id="SpellingErrorCorrection" scope="markup.comment">
                 <regex>\t([^\t\n\r]+)[\n\r\t]</regex>
             </keywords>
 
-            <keywords id="CorrectTest" color="#14952e">
+            <keywords id="CorrectTest" scope="markup.comment">
                 <regex>^([^\t]+)\t\t</regex>
             </keywords>
 
@@ -135,11 +135,11 @@
             contain a <regex> tag. They can contain <keywords> tags like specified above.
         -->    
 
-        <state id="Comment" color="#1b561e" font-style="italic">
-            <begin><regex>[#!][0-9 ]</regex></begin>
+        <state id="Comment" scope="comment.line">
+            <begin><regex>[#!]</regex></begin>
             <end><regex>[\n\r]</regex></end>
 
-            <keywords id="BugIDs" color="#400080" font-weight="bold" font-style="italic">
+            <keywords id="BugIDs" scope="string">
                 <regex>[!#]([0-9]+)[^0-9]</regex>
             </keywords>
 
