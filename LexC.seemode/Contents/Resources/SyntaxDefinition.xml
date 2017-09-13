@@ -96,7 +96,7 @@
             </keywords>
 
             <!-- % can be followed by: "*~ etc, add any missing symbol to the lists below: -->
-            <keywords id="Upper" scope="string.symbol">
+            <keywords id="Upper" scope="string.symbol.upper">
                 <regex>^\s*([\S &amp;&amp;[^:%+]]+(%[ :%"*!;~&gt;&lt;+-][\S &amp;&amp;[^:%+]]*)*)[:+]</regex>
             </keywords>
 
@@ -104,7 +104,7 @@
                 <regex>^\s*([\S &amp;&amp;[^:%]]+(%[ :%"*!;~&gt;&lt;-][\S &amp;&amp;[^:%]]*)*)\s</regex>
             </keywords>
 
-            <keywords id="Lower" scope="string.symbol">
+            <keywords id="Lower" scope="string.symbol.lower">
                 <regex>[^%]:([\S &amp;&amp;[^%:]]*(%[ :%"*!;~&gt;&lt;-][\S &amp;&amp;[^%:]]*)*)[\s@]</regex>
             </keywords>
 
