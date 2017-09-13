@@ -29,7 +29,7 @@
         -->    
 
         <charsintokens>
-            <![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]>
+            <![CDATA[_0987654321-aábcčdđefghijklmnŋopqrsštŧuvwxyzžæäøöåAÁBCČDĐEFGHIJKLMNŊOPQRSŠTŦUVWXYZŽÆÄØÖÅ@% ]]>
         </charsintokens> 
         <!-- <charsdelimitingtokens>[CDATA[ -]]></charsdelimitingtokens> -->
         
@@ -82,7 +82,7 @@
                 
         -->    
     
-        <default id="Morphology and POS" color="#1611ff" inverted-color="#fff" font-weight="bold">
+        <default id="Morphology and POS" scope="meta.default">
 
             <!-- 
             The <keywords> tag specifies keyword groups within the current state.
@@ -109,31 +109,31 @@
                     no      Don't add to autocomplete dictionary
             -->    
 
-            <keywords id="Wordform" color="#fd382f" font-weight="bold">
-				<regex>".(\S+)>"</regex>
+            <keywords id="Wordform" scope="string">
+				<regex>".([^"]+)>"</regex>
             </keywords>
 
-            <keywords id="Lemma" color="#008080" font-weight="bold" >
+            <keywords id="Lemma" scope="markup.comment">
 				<regex>\t\s*(\".+\")</regex>
             </keywords>
 
-            <keywords id="Sub-POS" color="#1d92ec" >
+            <keywords id="Sub-POS" scope="string.symbol">
 				<regex> (&lt;\S+>)</regex>
             </keywords>
 
-            <keywords id="Syntax" color="#132fd3" > <!--f9286d-->
+            <keywords id="Syntax" scope="keyword.directive">
 				<regex> (@\S+)</regex>
             </keywords>
 
-            <keywords id="Dependences" color="#f91a00"  font-weight="bold" >
+            <keywords id="Dependences" scope="string">
 				<regex> (#\S+)</regex>
             </keywords>
 
-            <keywords id="Errortags" color="#f91a00"  font-weight="bold" >
+            <keywords id="Errortags" scope="language.operator">
 				<regex> (&amp;\S+)</regex>
             </keywords>
 
-            <keywords id="Rule traces" color="#fa8200"  font-style="italic" >
+            <keywords id="Rule traces" scope="language.operator">
 				<regex> ([\p{Upper}]+:[\d]+(:[\S]+)?)</regex>
             </keywords>
 
@@ -149,7 +149,7 @@
             -->    
         </default>
         
-        <state id="Comment" color="#757575" font-style="italic">
+        <state id="Comment" scope="comment.line">
             <begin><regex>(?:^;)</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>

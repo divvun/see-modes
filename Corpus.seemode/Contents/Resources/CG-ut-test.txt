@@ -1,20 +1,20 @@
-Ønskje:
-
-subethaeditmodus for output frå dis
-
-
-
-
-"<Vuosttaš>" <- farge 1 - ordform (raud)
-   -------
-	"vuosttaš" <- farge 2 - lemma (grøn)
-   ------
-	 <aux> <- farge 6 - subtags / POSsub (lyseblå)
-	 A Ord Attr <- farge 3 - morph (blå)
-	----
-	 @>N <- farge 4 - syntaks (fiolett)
-	 #1->2 <- farge 5 - dependens (raud)
-    ----
+; Ønskje:
+; 
+; subethaeditmodus for output frå dis
+; 
+; 
+; 
+; 
+; "<Vuosttaš>" <- farge 1 - ordform (raud)
+;    -------
+; 	"vuosttaš" <- farge 2 - lemma (grøn)
+;    ------
+; 	 <aux> <- farge 6 - subtags / POSsub (lyseblå)
+; 	 A Ord Attr <- farge 3 - morph (blå)
+; 	----
+; 	 @>N <- farge 4 - syntaks (fiolett)
+; 	 #1->2 <- farge 5 - dependens (raud)
+;     ----
 
 
 "<boddu>"
