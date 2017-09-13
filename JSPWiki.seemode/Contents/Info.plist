@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleGetInfoString</key>
+	<key>NSHumanReadableCopyright</key>
 	<string>2.0, ©The Divvun Group at UiT 2007-2016, http://divvun.no/</string>
 	<key>CFBundleIdentifier</key>
 	<string>SEEMode.JSPWiki</string>
