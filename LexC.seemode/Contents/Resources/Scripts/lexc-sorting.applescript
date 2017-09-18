@@ -1,7 +1,7 @@
 -- see settings
 on seescriptsettings()
 	
-	return {displayName:"LexC Giella Style", keyboardShortcut:"^~@l", inContextMenu:"yes"}
+	return {displayName:"LexC Sorting", keyboardShortcut:"^~@s", inContextMenu:"yes"}
 	
 	-- Here is a overview of currently supported settings
 	-- displayName: Name displayed in menus
@@ -29,7 +29,7 @@ set ScriptPathName to UnixPath & ScriptName
 -- the following is a command to call an external script, in this case python
 -- notice the export preamble which is essential to make pbpaste work with
 -- utf8 content.
-set shellscriptString to "export LANG=en_US.UTF-8; pbpaste | python '" & ScriptPathName & "' --align -"
+set shellscriptString to "export LANG=en_US.UTF-8; pbpaste | python '" & ScriptPathName & "' --sort -"
 
 set shellresult to do shell script shellscriptString without altering line endings
 

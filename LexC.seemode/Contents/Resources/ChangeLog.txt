@@ -1,3 +1,6 @@
+Changes with Version 2.2.0
+    *) Added sort lexicon function & menu item
+
 Changes with Version 2.1.8
 
     *) Merge new version of $GTHOME/giella-core/devtools/lexc-giella-style.py

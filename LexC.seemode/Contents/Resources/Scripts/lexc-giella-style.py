@@ -32,7 +32,22 @@ from collections import defaultdict
 from io import open
 
 
-class TestLines(unittest.TestCase):
+LEXC_LINE_RE = re.compile(r'''
+    (?P<contlex>\S+)            #  any nonspace
+    (?P<translation>\s+".+")?   #  optional translation
+    \s*;\s*                     #  skip space and semicolon
+    (?P<comment>!.*)?           #  followed by an optional comment
+    $
+''', re.VERBOSE | re.UNICODE)
+
+
+LEXC_CONTENT_RE = re.compile(r'''
+    (?P<exclam>^\s*!\s*)?          #  optional comment
+    (?P<content>(<.+>)|(.+))?      #  optional content
+''', re.VERBOSE | re.UNICODE)
+
+
+class TestLexcAligner(unittest.TestCase):
 
     def test_non_lexc_line(self):
         input = u'''
@@ -41,7 +56,7 @@ abb ; babb
         expected_result = u'''
 abb ; babb
 '''
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
@@ -58,7 +73,7 @@ abb ; babb
    +A:%>X7 NomVadj "good A" ;
 '''
 
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         longest = {}
@@ -80,7 +95,7 @@ abb ; babb
  +N+Sg: N_ODD_SG ;
 '''
 
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
@@ -98,7 +113,7 @@ LEXICON GOAHTI-NE  !!= * __@CODE@__ Bisyll. V-Nouns
   EssV ;
 '''
 
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
@@ -113,7 +128,7 @@ LEXICON Conjunction
  jïh Cc ;
  jah Cc ;
 '''
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
@@ -130,7 +145,7 @@ LEXICON Conjunction
     jïh Cc ;
     jah Cc ;
 '''
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
@@ -143,7 +158,7 @@ LEXICON Cc
 LEXICON Cc
  +CC:0 # ;
 '''
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
@@ -179,7 +194,7 @@ LEXICON DAKTERE
 '''  # nopep8
         self.maxDiff = None
 
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
@@ -198,7 +213,7 @@ LEXICON test
 '''
         self.maxDiff = None
 
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
@@ -214,7 +229,7 @@ uff:puf Contlex;
  uff:puf    Contlex ;
 '''
 
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
@@ -238,7 +253,7 @@ LEXICON GOAHTILONGSHORT !!= * __@CODE@__ Sometimes long nom-compound-forms, long
                   +N+Der+Der/viđi+Adv+Use/-PLX:»X7viđi     K                  ;
 '''
         self.maxDiff = None
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
@@ -266,20 +281,20 @@ LEXICON nouns
 '''
 
         self.maxDiff = None
-        l = Lines()
+        l = LexcAligner()
         l.parse_lines(input.split(u'\n'))
 
         self.assertEqual(expected_result, '\n'.join(l.adjust_lines()))
 
 
-class TestLine(unittest.TestCase):
+class TestLineParser(unittest.TestCase):
 
     def test_line_parser_upper_lower(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'        +N+SgNomCmp:e%^DISIMP    R              ;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'upper': u'+N+SgNomCmp',
             u'lower': u'e%^DISIMP',
@@ -290,12 +305,12 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_no_lower(self):
-        l = Lines()
+        l = LexcAligner()
         line = (
             u'               +N+Sg:             N_ODD_SG   ;')
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'upper': u'+N+Sg',
             u'lower': u'',
@@ -306,11 +321,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_no_upper_no_lower(self):
-        l = Lines()
+        l = LexcAligner()
         line = u' N_ODD_ESS;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'contlex': u'N_ODD_ESS',
         }
@@ -318,11 +333,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_empty_upper_lower(self):
-        l = Lines()
+        l = LexcAligner()
         line = u' : N_ODD_E;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'upper': u'', u'lower': u'',
             u'contlex': u'N_ODD_E',
@@ -332,13 +347,13 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_with_comment(self):
-        l = Lines()
+        l = LexcAligner()
         line = (
             u'+A+Comp+Attr:%>abpa ATTRCONT; '
             u'! båajasabpa, *båajoesabpa')
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'upper': u'+A+Comp+Attr',
             u'lower': u'%>abpa',
@@ -350,11 +365,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_with_translation(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'  +A:%>X7 NomVadj "good A" ;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'upper': u'+A', u'lower': u'%>X7',
             u'contlex': u'NomVadj',
@@ -365,11 +380,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_with_leading_upper_and_contlex(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'jïh Cc ;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'upper': u'jïh',
             u'contlex': u'Cc',
@@ -378,11 +393,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_with_leading_exclam(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'!dovne Cc ; ! dovne A jïh B'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {
             u'comment': u'! dovne A jïh B',
             u'upper': u'dovne',
@@ -393,13 +408,13 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_less_great(self):
-        l = Lines()
+        l = LexcAligner()
         line = (
             u'< "@P.Px.add@" 0:u 0:v 0:v "+V":a "+IV":%> "+Der4":» '
             u'"+Der/NomAct":m > ContLex ;')
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {u'contlex': u'ContLex',
                            u'upper':
                                u'< "@P.Px.add@" 0:u 0:v 0:v "+V":a "+IV":%> '
@@ -408,11 +423,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_lower_ends_with_percent(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'abb:babb%¥ ContLex ;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {u'contlex': u'ContLex',
                            u'upper': u'abb',
                            u'lower': u'babb% ',
@@ -421,11 +436,11 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_line_parser_multiple_percent_space(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'+N+Der+Der/viđá+Adv+Use/-PLX:»X7%¥viđá%¥ K ;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {u'contlex': u'K',
                            u'upper': u'+N+Der+Der/viđá+Adv+Use/-PLX',
                            u'lower': u'»X7% viđá% ',
@@ -434,30 +449,17 @@ class TestLine(unittest.TestCase):
         self.assertDictEqual(parse_line(input), expected_result)
 
     def test_only_contlex(self):
-        l = Lines()
+        l = LexcAligner()
         line = u'N_NEWWORDS ;'
-        input = l.lexc_line_re.search(line).groupdict()
-        input.update(l.lexc_content_re.match(
-            l.lexc_line_re.sub('', line)).groupdict())
+        input = LEXC_LINE_RE.search(line).groupdict()
+        input.update(LEXC_CONTENT_RE.match(
+            LEXC_LINE_RE.sub('', line)).groupdict())
         expected_result = {u'contlex': u'N_NEWWORDS'}
 
         self.assertDictEqual(parse_line(input), expected_result)
 
 
-class Lines(object):
-
-    lexc_line_re = re.compile(r'''
-        (?P<contlex>\S+)            #  any nonspace
-        (?P<translation>\s+".+")?   #  optional translation
-        \s*;\s*                     #  skip space and semicolon
-        (?P<comment>!.*)?           #  followed by an optional comment
-        $
-    ''', re.VERBOSE | re.UNICODE)
-
-    lexc_content_re = re.compile(r'''
-        (?P<exclam>^\s*!\s*)?          #  optional comment
-        (?P<content>(<.+>)|(.+))?      #  optional content
-    ''', re.VERBOSE | re.UNICODE)
+class LexcAligner(object):
 
     def __init__(self):
         self.longest = defaultdict(int)
@@ -465,13 +467,12 @@ class Lines(object):
 
     def parse_lines(self, lines):
         for line in lines:
-            line = line.rstrip()
             line = line.replace(u'% ', u'%¥')
-            lexc_line_match = self.lexc_line_re.search(line)
+            lexc_line_match = LEXC_LINE_RE.search(line)
             if lexc_line_match and not line.startswith('LEXICON '):
                 input = lexc_line_match.groupdict()
-                input.update(self.lexc_content_re.match(
-                self.lexc_line_re.sub('', line)).groupdict())
+                input.update(LEXC_CONTENT_RE.match(
+                LEXC_LINE_RE.sub('', line)).groupdict())
                 l = parse_line(input)
                 self.lines.append(l)
                 self.find_longest(l)
@@ -535,6 +536,35 @@ class Lines(object):
         return newlines
 
 
+class LexcSorter(object):
+    """Sort entries in a lexc lexicon."""
+
+    def __init__(self):
+        self.lines = []
+        self.lexc_lines = []
+
+    def parse_lines(self, lines):
+        for line in lines:
+            lexc_line_match = LEXC_LINE_RE.search(line)
+            if lexc_line_match and not line.startswith('LEXICON '):
+                input = lexc_line_match.groupdict()
+                input.update(LEXC_CONTENT_RE.match(
+                    LEXC_LINE_RE.sub('', line)).groupdict())
+                l = parse_line(input)
+                self.lexc_lines.append((l[u'upper'], line))
+            else:
+                if line.strip():
+                    self.lines.append(line)
+
+    def adjust_lines(self):
+        newlines = []
+        newlines.extend(self.lines)
+        newlines.extend([l[1] for l in sorted(self.lexc_lines)])
+        newlines.append('')
+
+        return newlines
+
+
 def parse_line(old_match):
     line_dict = defaultdict(unicode)
 
@@ -571,15 +601,37 @@ def parse_line(old_match):
     return line_dict
 
 
+def align_lexicon(readlines):
+    lines = LexcAligner()
+    lines.parse_lines(readlines)
+
+    return lines.adjust_lines()
+
+
+def sort_lexicon(readlines):
+    lines = LexcSorter()
+    lines.parse_lines(readlines)
+
+    return lines.adjust_lines()
+
+
 def parse_options():
     parser = argparse.ArgumentParser(
         description=u'Align rules given in lexc files')
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument(u'--align',
+                       action=u'store_true',
+                       help=u'Align lexicon entries')
+    group.add_argument(u'--sort',
+                       action=u'store_true',
+                       help=u'Sort lexicon entries')
     parser.add_argument(u'lexcfile',
-                        help=u'Lexc file where rules should be aligned\n'
-                        'If filename is -, then the file is read from '
-                        'stdin and written to stdout.')
+                        help=u'Lexc file where lexicon entries should '
+                        'be manipulated. If filename is -, then the file '
+                        'is read from stdin and written to stdout.')
 
     args = parser.parse_args()
+
     return args
 
 if __name__ == u'__main__':
@@ -594,18 +646,27 @@ if __name__ == u'__main__':
             else sys.stdin as f:
         newlines = []
         readlines = []
-        for l in f.readlines():
+
+        for l in f:
             if l.startswith(u'LEXICON '):
-                lines = Lines()
-                lines.parse_lines(readlines)
-                newlines += lines.adjust_lines()
+                newlines.extend(readlines)
+                readlines = [l.rstrip()]
+                break
+            readlines.append(l.rstrip())
+
+        for l in f:
+            if l.startswith(u'LEXICON '):
+                if args.align:
+                    newlines.extend(align_lexicon(readlines))
+                if args.sort:
+                    newlines.extend(sort_lexicon(readlines))
                 readlines = []
+            readlines.append(l.rstrip())
 
-            readlines.append(l)
-
-        lines = Lines()
-        lines.parse_lines(readlines)
-        newlines += lines.adjust_lines()
+        if args.align:
+            newlines.extend(align_lexicon(readlines))
+        if args.sort:
+            newlines.extend(sort_lexicon(readlines))
 
     with open(args.lexcfile, u'w') if args.lexcfile is not "-" \
             else sys.stdout as f:
