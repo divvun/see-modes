@@ -1,3 +1,6 @@
+Changes with Version 2.2.2
+    *) One more bug fix - variable had been renamed, so script was broken.
+
 Changes with Version 2.2.1
     *) Bug fixes for the new sort function.
 
