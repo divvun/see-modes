@@ -1,3 +1,6 @@
+Changes with Version 2.2.3
+    *) Bug fix - Unicode read error.
+
 Changes with Version 2.2.2
     *) One more bug fix - variable had been renamed, so script was broken.
 
