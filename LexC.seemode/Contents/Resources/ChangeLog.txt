@@ -1,3 +1,8 @@
+Changes with Version 2.3.0
+    *) Bug fix: sorting issues
+    *) New feature: backwards sorting on the stem
+    *) New feature: sorting based on the continuation lexicon
+
 Changes with Version 2.2.3
     *) Bug fix - Unicode read error.
 
