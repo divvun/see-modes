@@ -1,3 +1,6 @@
+Changes with Version 2.3.1
+    *) Bug fix: encoding errors on stdin/stdout.
+
 Changes with Version 2.3.0
     *) Bug fix: sorting issues
     *) New feature: backwards sorting on the stem
