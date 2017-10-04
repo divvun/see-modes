@@ -918,7 +918,6 @@ def parse_options():
                        action=u'store_true',
                        help=u'Align lexicon entries')
     group.add_argument(u'--sort',
-                       default='alpha',
                        choices=['alpha', 'revstem', 'contlex'],
                        help=u'Sort lexicon entries')
     parser.add_argument(u'lexcfile',
@@ -932,11 +931,11 @@ def parse_options():
 
 
 if __name__ == u'__main__':
-    # https://stackoverflow.com/questions/2737966/how-to-change-the-stdin-encoding-on-python  nopep8
-    UTF8Reader = codecs.getreader('utf8')
-    sys.stdin = UTF8Reader(sys.stdin)
-    UTF8Writer = codecs.getwriter('utf8')
-    sys.stdout = UTF8Writer(sys.stdout)
+    # nopep8  https://stackoverflow.com/questions/2737966/how-to-change-the-stdin-encoding-on-python
+    UTF8READER = codecs.getreader('utf8')
+    sys.stdin = UTF8READER(sys.stdin)
+    UTF8WRITER = codecs.getwriter('utf8')
+    sys.stdout = UTF8WRITER(sys.stdout)
 
     ARGS = parse_options()
 

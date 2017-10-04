@@ -1,3 +1,6 @@
+Changes with Version 2.3.2
+    *) Bug fix: styling duplicated lexicons
+
 Changes with Version 2.3.1
     *) Bug fix: encoding errors on stdin/stdout.
 
