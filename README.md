@@ -4,8 +4,8 @@ This repo holds syntax modes for [SubEthaEdit](https://subethaedit.net) (SEE amo
 
 * [ConstraintGrammar](https://visl.sdu.dk/cg3.html)
 * Corpus analysis (Constraint Grammar output)
-* [JSPWiki](https://jspwiki-wiki.apache.org/Wiki.jsp?page=TextFormattingRules) - will
-  soon be obsolete, most documents are now converted to Markdown
+* [JSPWiki](https://jspwiki-wiki.apache.org/Wiki.jsp?page=TextFormattingRules) (this mode will
+  soon be of less interest as most documents are now converted to Markdown)
 * LexC
 * Twolc
 * Typos
@@ -13,7 +13,9 @@ This repo holds syntax modes for [SubEthaEdit](https://subethaedit.net) (SEE amo
 
 They are a.o. used in the development of language resources in the [GiellaLT infrastructure](https://github.com/giellalt).
 
-LexC, Twolc and Xfst are tools & formalisms by Xerox, available at <https://web.stanford.edu/~laurik/fsmbook/home.html>, and documented in the book linked to on that site. The same formalisms are supported by the open-source tools [Foma](https://fomafst.github.io) and [Hfst](https://hfst.github.io).
+**LexC**, **Twolc** and **Xfst** are tools & formalisms by Xerox. The tools are freely available at <https://web.stanford.edu/~laurik/fsmbook/home.html> (although closed-source), and both the tools and formalisms are documented in the book linked to on that site. The same formalisms are supported by the open-source tools [**Foma**](https://fomafst.github.io) and [**Hfst**](https://hfst.github.io), ie they are source-code compatible with the Xerox tools.
+
+**Typos** files are simple TAB separated, two column files containing real typos and their corrections. These files are used for testing spelling checkers, and the syntax colouring helps us check that the content is entered correctly.
 
 # Install
 
@@ -29,7 +31,7 @@ Make sure the wanted mode is displayed in the mode selection area - click and se
 ![SEE Mode Selection area](images/SEE-mode-selection-area.png)
 ![SEE Mode Selection     ](images/SEE-mode-selection.png)
 
-With the mode active, you can access mode-specific tools to be used on the whole document or the selection by choosigh from the **Mode** menu or from the context menu:
+With the mode active, you can access mode-specific tools to be used on the whole document or the selection by choosigh from the **Mode** menu or from the context menu, as well as lexicons or rules from the **Function** popup menu:
 
 ![SEE Mode Menu          ](images/SEE-mode-menu.png)
 ![SEE Context Menu       ](images/SEE-context-menu.png)
