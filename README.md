@@ -43,7 +43,7 @@ MIT - [LICENSE](LICENSE) or <http://opensource.org/licenses/MIT> (same as SubEth
 
 # Contribution
 
-Very welcome! 🙂
+… is very welcome! 🙂
 
 Fork and PR on Github.
 
