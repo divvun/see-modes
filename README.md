@@ -1,6 +1,6 @@
 # SEE Modes for GiellaLT
 
-This repo holds syntax modes for [SubEthaEdit](https://subethaedit.net) for the following types of text files:
+This repo holds syntax modes for [SubEthaEdit](https://subethaedit.net) (SEE among friends) for the following types of text files:
 
 * [ConstraintGrammar](https://visl.sdu.dk/cg3.html)
 * Corpus analysis (Constraint Grammar output)
