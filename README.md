@@ -31,7 +31,7 @@ Make sure the wanted mode is displayed in the mode selection area - click and se
 ![SEE Mode Selection area](images/SEE-mode-selection-area.png)
 ![SEE Mode Selection     ](images/SEE-mode-selection.png)
 
-With the mode active, you can access mode-specific tools to be used on the whole document or the selection by choosigh from the **Mode** menu or from the context menu, as well as lexicons or rules from the **Function** popup menu:
+With the mode active, you can access mode-specific tools to be used on the whole document or the selection by choosing from the **Mode** menu or from the context menu, as well as lexicons or rules from the **Function** popup menu:
 
 ![SEE Mode Menu          ](images/SEE-mode-menu.png)
 ![SEE Context Menu       ](images/SEE-context-menu.png)
