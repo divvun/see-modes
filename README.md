@@ -44,6 +44,8 @@ MIT - [LICENSE](LICENSE) or <http://opensource.org/licenses/MIT> (same as SubEth
 
 # Contribution
 
+Very welcome! 🙂
+
 Fork and PR on Github.
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you shall be licensed as above, without any additional terms or conditions.
