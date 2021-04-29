@@ -14,7 +14,7 @@ They are used in the development of language resources in the [GiellaLT infrastr
 
 # LICENSE
 
-MIT - [LICENSE](blob/main/LICENSE) or <http://opensource.org/licenses/MIT> (same as SubEthaEdit).
+MIT - [LICENSE](LICENSE) or <http://opensource.org/licenses/MIT> (same as SubEthaEdit).
 
 # Contribution
 
