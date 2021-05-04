@@ -96,20 +96,20 @@
             </keywords>
 
             <!-- % can be followed by: "*~ etc, add any missing symbol to the lists below: -->
-            <keywords id="Upper" scope="string.symbol.upper">
-                <regex>^\s*([\S &amp;&amp;[^:%+]]+(%[ :%"*!;~&gt;&lt;+-][\S &amp;&amp;[^:%+]]*)*)[:+]</regex>
+            <keywords id="Upper" scope="language.constant">
+                <regex>^\s*(.+?)[:+].*?\s+\S*(?: ".*")? ;</regex>
             </keywords>
 
-            <keywords id="UpperLower" scope="string.symbol">
-                <regex>^\s*([\S &amp;&amp;[^:%]]+(%[ :%"*!;~&gt;&lt;-][\S &amp;&amp;[^:%]]*)*)\s</regex>
+            <keywords id="UpperLower" scope="language.constant">
+                <regex>^\s*([^:\s]+?)\s+\S+(?:\s+".*")?\s*;</regex>
             </keywords>
 
             <keywords id="Lower" scope="string.symbol.lower">
-                <regex>[^%]:([\S &amp;&amp;[^%:]]*(%[ :%"*!;~&gt;&lt;-][\S &amp;&amp;[^%:]]*)*)[\s@]</regex>
+                <regex>[^%]:(.*?) \S+(?: ".*")? ;</regex>
             </keywords>
 
-            <keywords id="Continuation lexicon" scope="language.variable">
-                <regex>\s([\S]+)\s*;</regex>
+            <keywords id="Continuation lexicon" scope="language.subroutine.function.call">
+                <regex>\s(\S+)(?:\s+".*")?\s*;</regex>
             </keywords>
 
             <keywords id="Continuation lexicon flush" scope="language.variable">
