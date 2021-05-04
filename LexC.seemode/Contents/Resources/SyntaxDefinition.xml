@@ -168,7 +168,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state-->
     
-            <state id="MulticharSymbols" scope="keyword.directive">
+            <state id="MulticharSymbols" scope="keyword.variable.global">
                 <begin><regex>Multichar_Symbols</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)LEXICON</regex></end>
     
