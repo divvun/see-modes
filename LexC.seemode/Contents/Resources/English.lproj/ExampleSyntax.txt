@@ -1,4 +1,4 @@
-!! !!!Adjective stems
+!! # Adjective stems
 
 LEXICON Adjective
 
@@ -6,7 +6,11 @@ LEXICON Adjective
  tjearoske+Sem/Dummytag:tjearosk Ce_CE_ODDNOCOMP ;
  aareske+Sem/Dummytag:aaresk Ce_CE_ODDNOCOMP "steinete" ;
 
-LEXICON BodyPart
- +N+Abs: # ;
- +N+Rfx:%>áng # ;
+!! # Adjective inflection
 
+LEXICON Ce_CE_ODDNOCOMP
+ +A+Abs: # ;      !!≈ * **@CODE@** - Short form
+ +A+Rfx:%>áng # ; !!≈ * **@CODE@** - Long form
+
+LEXICON ATTR_0
+ +Attr: # ;
