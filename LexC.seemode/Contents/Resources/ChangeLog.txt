@@ -1,3 +1,12 @@
+Changes with Version 2.5.0
+    *) New feature: rudimentary support for Markdown syntax in doccomments
+    *) Improvement: better/more distinct colours
+    *) Improvement: regexes for keyword matching
+    *) Improvement: updated template for new file
+
+Changes with Version 2.4.0
+    *) New feature: sort backwards on lemma
+
 Changes with Version 2.3.2
     *) Bug fix: styling duplicated lexicons
 
