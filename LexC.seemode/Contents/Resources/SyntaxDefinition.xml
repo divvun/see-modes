@@ -91,7 +91,7 @@
 
             </keywords>
 
-            <keywords id="Lexicon name" scope="language.subroutine.function.definition">
+            <keywords id="Lexicon name" scope="language.subroutine.method.definition">
                 <regex>LEXICON ([^\n\r\s]+)</regex>
             </keywords>
 
@@ -108,7 +108,7 @@
                 <regex>[^%]:(.*?) \S+(?: ".*")? ;</regex>
             </keywords>
 
-            <keywords id="Continuation lexicon" scope="language.subroutine.function.call">
+            <keywords id="Continuation lexicon" scope="language.subroutine.method">
                 <regex>\s(\S+)(?:\s+".*")?\s*;</regex>
             </keywords>
 
