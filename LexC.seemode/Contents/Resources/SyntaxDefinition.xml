@@ -137,7 +137,7 @@
             </keywords>
 
             <keywords id="Borders" scope="language.operator">
-                <regex>([«»#])</regex>
+                <regex>([«»#:;&gt;&lt;])</regex>
             </keywords>
 
             <!-- This one doesn't work - it is overridden by Upper and Lower; it is
