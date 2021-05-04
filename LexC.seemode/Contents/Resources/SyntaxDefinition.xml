@@ -152,8 +152,15 @@
             </keywords>
 
             <state id="Comment" scope="comment.line">
-                <begin><regex>!</regex></begin>
+                <begin><regex>![^!]</regex></begin>
                 <end><regex>[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+            </state>
+    
+            <state id="DocComment" type="comment" scope="comment.block.documentation">
+                <begin><regex>!![=≈]? </regex></begin>
+                <end><regex>[\n\r]</regex></end>
+				<import mode="Markdown" />
             </state>
     
             <!-- This one does work, but because it is a separate state, it destroys the context
@@ -163,7 +170,7 @@
                 <begin><regex>@</regex></begin>
                 <end><regex>@</regex></end>
             </state>
-    
+
             <!--state id="String" color="#fd382f">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
