@@ -112,14 +112,6 @@
                 <regex>\s(\S+)(?:\s+".*")?\s*;</regex>
             </keywords>
 
-            <keywords id="Continuation lexicon flush" scope="language.variable">
-                <regex>^([\S]+)\s*;</regex>
-            </keywords>
-
-            <keywords id="Continuation lexicon with string" scope="language.variable">
-                <regex>\s([\w%>.@^#-]+)\s+"[^"]*"\s*;</regex>
-            </keywords>
-
             <keywords id="Tags" scope="markup.constant.entity">
                 <regex>\+([\S&amp;&amp;[^:]]+)[\s\n\r:#]</regex>
             </keywords>
