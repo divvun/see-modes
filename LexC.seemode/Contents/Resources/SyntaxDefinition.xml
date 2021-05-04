@@ -173,10 +173,16 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)LEXICON</regex></end>
     
                 <state id="CommentInMC" scope="comment.line">
-                    <begin><regex>!</regex></begin>
+                    <begin><regex>![^!]</regex></begin>
                     <end><regex>[\n\r]</regex></end>
                 </state>
-    
+
+                <state id="DocCommentInMC" type="comment" scope="comment.block.documentation">
+                    <begin><regex>!![=≈]? </regex></begin>
+                    <end><regex>[\n\r]</regex></end>
+                    <import mode="Markdown" />
+                </state>
+
                 <keywords id="DefinedSuffTags" useforautocomplete="yes" scope="language.variable.string">
                     <regex>(\+[\w/-]+)[\s\n\r]</regex>
                 </keywords>
