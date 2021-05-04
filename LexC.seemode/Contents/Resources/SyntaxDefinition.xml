@@ -91,7 +91,7 @@
 
             </keywords>
 
-            <keywords id="Lexicon name" scope="language.variable">
+            <keywords id="Lexicon name" scope="language.subroutine.function.definition">
                 <regex>LEXICON ([^\n\r\s]+)</regex>
             </keywords>
 
@@ -120,7 +120,7 @@
                 <regex>\s([\w%>.@^#-]+)\s+"[^"]*"\s*;</regex>
             </keywords>
 
-            <keywords id="Tags" scope="language.variable.string">
+            <keywords id="Tags" scope="markup.constant.entity">
                 <regex>\+([\S&amp;&amp;[^:]]+)[\s\n\r:#]</regex>
             </keywords>
 
