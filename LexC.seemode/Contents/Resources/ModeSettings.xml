@@ -2,8 +2,9 @@
 <!DOCTYPE syntax SYSTEM "settings.dtd">
 <settings>
     <recognition>
-        <extension>lex.txt</extension>             <!-- Add file extensions -->
         <extension>lexc</extension>                <!-- Add file extensions -->
+        <extension>foma</extension>                <!-- Add file extensions -->
+        <extension>lex.txt</extension>             <!-- Add file extensions -->
         <regex>LEXICON </regex>                    <!-- Add regex of content -->
         <regex>Multichar_Symbols</regex>           <!-- Add regex of content -->
     </recognition>
