@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE syntax SYSTEM "settings.dtd">
 <settings>
+	<template>NewTemplate.lexc</template>
     <recognition>
         <extension>lexc</extension>                <!-- Add file extensions -->
         <extension>foma</extension>                <!-- Add file extensions -->
