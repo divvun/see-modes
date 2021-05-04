@@ -1,3 +1,7 @@
+Changes with Version 2.5.1
+    *) Bugfix: allow no space between CONTLEX and ; for colouring the lemma
+    *) Bugfix: stop comment colouring at the end of the line even when ! is the only comment char
+
 Changes with Version 2.5.0
     *) New feature: rudimentary support for Markdown syntax in doccomments
     *) Improvement: better/more distinct colours

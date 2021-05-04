@@ -97,7 +97,7 @@
 
             <!-- % can be followed by: "*~ etc, add any missing symbol to the lists below: -->
             <keywords id="Upper" scope="language.constant">
-                <regex>^\s*(.+?)[:+].*?\s+\S*(?: ".*")? ;</regex>
+                <regex>^\s*(.+?)[:+].*?\s+\S*(?: ".*")?\s*;</regex>
             </keywords>
 
             <keywords id="UpperLower" scope="language.constant">
@@ -144,7 +144,7 @@
             </keywords>
 
             <state id="Comment" scope="comment.line">
-                <begin><regex>![^!]</regex></begin>
+                <begin><regex>![^!\n\r]?</regex></begin>
                 <end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
@@ -173,7 +173,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)LEXICON</regex></end>
     
                 <state id="CommentInMC" scope="comment.line">
-                    <begin><regex>![^!]</regex></begin>
+                    <begin><regex>![^!\n\r]?</regex></begin>
                     <end><regex>[\n\r]</regex></end>
                 </state>
 
