@@ -104,8 +104,8 @@
                 <regex>^\s*([^:\s]+?)\s+\S+(?:\s+".*")?\s*;</regex>
             </keywords>
 
-            <keywords id="Lower" scope="string.symbol.lower">
-                <regex>[^%]:(.*?) \S+(?: ".*")? ;</regex>
+            <keywords id="Lower" scope="language.variable.instance">
+                <regex>[^%]:(.*?)\s+\S+(?: ".*")?\s*;</regex>
             </keywords>
 
             <keywords id="Continuation lexicon" scope="language.subroutine.method">
