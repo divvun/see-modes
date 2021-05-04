@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSHumanReadableCopyright</key>
-	<string>2.3.2, ©The Divvun Group at UiT 2007-2021, http://divvun.no/</string>
+	<string>2.5.0, ©The Divvun Group at UiT 2007-2021, http://divvun.no/</string>
 	<key>CFBundleIdentifier</key>
 	<string>SEEMode.LexC</string>
 	<key>CFBundleInfoDictionaryVersion</key>
