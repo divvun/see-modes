@@ -1,3 +1,7 @@
+Changes with Version 2.5.2
+    *) Bugfix: Filename of NewTemplate - the template was not used
+    *) Re-added ExampleSyntax - needed for the mode preview in settings
+
 Changes with Version 2.5.1
     *) Bugfix: allow no space between CONTLEX and ; for colouring the lemma
     *) Bugfix: stop comment colouring at the end of the line even when ! is the only comment char
