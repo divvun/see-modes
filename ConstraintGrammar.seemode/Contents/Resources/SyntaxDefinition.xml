@@ -102,6 +102,7 @@
 				<!-- Rule-initiating keywords: -->
 				<regex>^(ADD)[\s:]</regex>
 				<regex>^(ADDCOHORT)[\s:]</regex>
+				<regex>^(ADDRELATION)[\s:]</regex>
 				<regex>^(COPY)[\s:]</regex>
 				<regex>^(DELIMIT)[\s:]</regex>
 				<regex>^(EXTERNAL)[\s:]</regex>
@@ -119,6 +120,7 @@
 				<regex>^(SUBSTITUTE)[\s:]</regex>
 				<regex>^(SWITCH)[\s:]</regex>
 				<regex>^(UNMAP)[\s:]</regex>
+				<regex>^(WITH)[\s:]</regex>
 				<regex>(SETCHILD)[\s:]</regex>
 				<regex>(SETPARENT)[\s:]</regex>
 
