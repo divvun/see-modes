@@ -143,6 +143,8 @@
 				<regex>(DELIMIT)\s</regex>
 				<regex>(DELIMITERS)\s</regex>
 				<regex>(END)\s</regex>
+				<regex>(EXCEPT)\s</regex>
+				<regex>(FROM)\s</regex>
 				<regex>\s(IF)\s</regex>
 				<regex>(INCLUDE)\s</regex>
 				<regex>(LINK)\s</regex>
