@@ -1,3 +1,6 @@
+Changes with Version 2.5.4
+    *) Bugfix: Use double quotes around pathname, to make the shell cooperate
+
 Changes with Version 2.5.3
     *) Bugfix: Python3 is everywhere, now the scripts are working again
     *) Added proper running of sandbox-protected scripts => things work again in modern macOS
