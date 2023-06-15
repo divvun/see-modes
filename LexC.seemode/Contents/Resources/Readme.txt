@@ -20,4 +20,4 @@ The mode makes heavy use of boldfacing, and is best viewed by turning on the syn
 
 There are a couple of known bugs, please see the Changelog.txt file for details.
 
-Feedback welcome to sjur.n.moshagen@uit.no or feedback@divvun.no
+Feedback welcome to feedback@divvun.no
