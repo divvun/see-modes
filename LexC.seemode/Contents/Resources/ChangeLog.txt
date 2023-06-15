@@ -1,3 +1,7 @@
+Changes with Version 2.5.3
+    *) Bugfix: Python3 is everywhere, now the scripts are working again
+    *) Added proper running of sandbox-protected scripts => things work again in modern macOS
+
 Changes with Version 2.5.2
     *) Bugfix: Filename of NewTemplate - the template was not used
     *) Re-added ExampleSyntax - needed for the mode preview in settings
