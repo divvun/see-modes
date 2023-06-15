@@ -29,7 +29,7 @@ set ScriptPathName to UnixPath & ScriptName
 -- the following is a command to call an external script, in this case python
 -- notice the export preamble which is essential to make pbpaste work with
 -- utf8 content.
-set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.UTF-8; pbpaste | $DEVPATH/usr/bin/python3 '" & ScriptPathName & "' --sort=revlemma -"
+set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.UTF-8; pbpaste | $DEVPATH/usr/bin/python3 \"" & ScriptPathName & "\" --sort=revlemma -"
 
 set shellresult to do shell script shellscriptString without altering line endings
 
