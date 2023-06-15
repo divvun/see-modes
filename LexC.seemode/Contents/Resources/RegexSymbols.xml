@@ -3,7 +3,7 @@
 <symbols>
 
     <!-- 
-    The <symbol> tag specifies what is being shown in the fuction popup.
+    The <symbol> tag specifies what is being shown in the function popup.
     It features the following attributes, all optional if not noted otherwise:
         id
             Has to be a unique string. Has to be specified.
