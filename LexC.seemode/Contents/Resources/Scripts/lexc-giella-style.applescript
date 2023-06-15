@@ -3,7 +3,7 @@ on seescriptsettings()
 	
 	return {displayName:"LexC Giella Style", keyboardShortcut:"^~@l", inContextMenu:"yes"}
 	
-	-- Here is a overview of currently supported settings
+	-- Here is an overview of currently supported settings
 	-- displayName: Name displayed in menus
 	-- keyboardShortcut: A keyboard shortcut. alt=~, ctrl=^, shift=$, cmd=@
 	-- inContextMenu: Should it appear in the ctrl-click menu?
@@ -29,7 +29,7 @@ set ScriptPathName to UnixPath & ScriptName
 -- the following is a command to call an external script, in this case python
 -- notice the export preamble which is essential to make pbpaste work with
 -- utf8 content.
-set shellscriptString to "export LANG=en_US.UTF-8; pbpaste | python '" & ScriptPathName & "' --align -"
+set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.UTF-8; pbpaste | $DEVPATH/usr/bin/python3 '" & ScriptPathName & "' --align -"
 
 set shellresult to do shell script shellscriptString without altering line endings
 
