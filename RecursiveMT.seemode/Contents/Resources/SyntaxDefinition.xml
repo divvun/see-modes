@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax>
+
+
+    <!-- 
+    The <head> tag encloses some global information about the mode.
+    This tag is required.
+    -->    
+
+    <head>
+
+        <!-- 
+        The <name> specifies the modes name. 
+        This tag is required and must match with the name in the plist after the SEEMode..
+        -->    
+
+        <name>RecursiveMT</name>
+
+        <!-- 
+        The <charsintokens> and the <charsdelimitingtokens> instruct the syntax highlighter
+        where to tokenize the text for fast finding of plain strings.
+        The <charsintokens> tag specifies the characters that can occur in strings,
+        the <charsdelimitingtokens> tag specifies the tags that cannot occur in strings.
+        One of these tags has to be specified.
+        Tip: Use CDATA here.
+        -->    
+
+        <charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> 
+        <!-- <charsdelimitingtokens><![CDATA[ -]]></charsdelimitingtokens> -->
+        
+        
+        <!--
+          the <charsincompletion> defines characters used for autocompletion. e.g. in perl
+          you want this to include the $ sign to autocomplete variables.
+          If left out the regular expression word boundaries are used.
+        -->
+        <!-- <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$</=>!]]></charsincompletion> -->
+    </head>
+
+
+    <!-- 
+    The <states> tag encloses all syntax states.
+    States are areas of the test that begin and end with an regex like comments or strings,
+    with exception of the default state, that exists anywhere where no other state exists.
+    This tag is required.
+    -->    
+
+    <states>
+    
+        <!-- 
+        The <default> tag specifies what is colored within the default state (see above).
+        It features the following attributes, all optional if not noted otherwise:
+            id
+                Has to be a unique string. Has to be specified.
+            usesymbolsfrommode
+                a mode name to use the symbol recognition from
+                when left out the value is inherited from the parent state
+            useautocompletefrommode
+                a mode name to use the autocomplete from - default is this mode
+                when left out the value is inherited from the parent state
+            type
+                a string description of the type. currently only the values
+                "string" and "comment" have meaning and cause bracket matching
+                and syntax highlighting to ignore these areas of text
+                
+        -->    
+    
+        <default id="Base" >
+
+
+            <keywords id="Rule headers" scope="string">
+                <!-- 
+                    <regex> tags specify regular expression to be colored. 
+                    Only the first group will be colored, so enclose the part to color
+                    with parens.
+                -->    
+                <regex>\"([^\"\n\r]+)\"</regex>
+            </keywords>
+            
+            <keywords id="Other keywords" scope="keyword">
+                <!-- 
+                    <string> tags specify plain text to be colored. If your tag does not
+                    get colored, check in <charsintokens> if you are tokenizing correctly.             
+                -->    
+            
+              <string>=</string>
+              <string>_</string>
+              <string>{</string>
+              <string>}</string>
+              <string>]</string>
+              <string>[</string>
+              <string>(</string>
+              <string>)</string>
+              <string>;</string>
+              <string>@</string>
+              <string>:</string>
+              <string>.</string>
+              <string>%</string>
+              <string>-&gt;</string>
+              <string>|</string>
+            </keywords>
+
+            <keywords id="Definition" scope="language.subroutine.method.definition">
+                <regex>(^[^:]+:)</regex>
+            </keywords>
+
+            <keywords id="Operators" scope="language.operator.special">
+                <regex>^(^.+):</regex>
+            </keywords>
+
+            <keywords id="LeftSide" scope="string">
+              <regex>\s*(\w+):\w+ /?&lt;=</regex>
+            </keywords>
+
+            <keywords id="RightSide" scope="language.subroutine.function">
+              <regex>\s*\w+:(\w+) /?&lt;=</regex>
+            </keywords>
+    
+            <keywords id="FirstContext" scope="language.subroutine.method">
+              <regex>&lt;?=>?(.+);</regex>
+            </keywords>
+
+            <state id="SingleComment" scope="comment.line">
+                <begin><regex>!</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+
+        </default>
+        
+    </states>
+
+</syntax>

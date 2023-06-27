@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+  <template>recursive-template.rtx</template>   <!-- Provide a template for File->new -->
+  <recognition>
+    <extension>rtx</extension>                 <!-- Add file extensions -->
+    <filename>*rtx*</filename>                 <!-- Add filenames -->
+    <regex>\A[.\n\r]*Alphabet[.\n\r]*Sets[.\n\r]*Definitions[.\n\r]*Rules?perl</regex>      <!-- Add regex of content -->
+  </recognition>
+</settings>

@@ -1,0 +1,178 @@
+!!!!!!!!!!!!!!!
+!! ATTRIBUTE CATEGORIES
+!!!!!!!!!!!!!!!
+
+number = sg pl du sp;
+tense = pres pret ;
+diathesis = actv pass ;
+mood = indic imp cond ;
+person = p1 p2 p3 ;
+case = nom acc gen par dat ine ela ill ade abl all abe com lat ins ess loc ;
+compcase = cmp_sgnom cmp_sggen cmp_plgen ;
+cmp = cmp ;
+attr = attr ;
+comp = pst comp sup ;
+infinite = inf prfprc ;
+prntype = pers dem ;
+transitivity = iv tv ;
+
+
+!!!!!!!!!!!!!!!
+!! OUTPUT PATTERNS
+!!!!!!!!!!!!!!!
+
+A: _ ;
+AP: _ ;
+AdvP: _ ;
+AdvP: _ ;
+ConnegP: _ ;
+ConnegPa: _ ;
+ConnegPb: _ ;
+DET: _ ;
+IMVP: _ ;
+IMVPa: _ ;
+IMVPb: _ ;
+INFV: _ ;
+N: _ ;
+NEG: _ ;
+NP: _ ;
+NUM: _ ;
+NegP: _ ;
+NumP: _ ;
+PP: _ ;
+PRN: _ ;
+S: _ ;
+V: _;
+VP: _ ;
+VPP: _ ;
+VPPRED: _ ;
+adj: _.comp.number.case ;
+adj: _.number.case ;
+adj_attr: _.attr ;
+adv: _ ;
+cnjcoo: _ ;
+connegv: _ ; 
+conneg: _.mood.tense.<conneg> ;
+det: _.det_type.number.case ;
+n: _.number.case ;
+ncomp: _.compcase.cmp ;
+neg: <vblex>.<iv>.<neg>.<indic>.person.number ;
+negv: _ ;
+np: _.number.case ;
+num: _.number.case ;
+pcle: _ ;
+post: _ ;
+!prn: _.<pers>.person.number.case ;
+!prn: _.number.case ;
+prn: _.prntype.number.case ;
+prn: _.prntype.person.number.case ;
+vblex: _.<actv>.mood.tense.person.number ;
+vblex_conneg: _.mood.<conneg> ;
+vblex_inf: <vblex>.<inf> ; ! ser.vblex.pres
+
+!he eivät voineet leikkiä
+!#sáhttit<vblex><indic><pret><pl>
+!^sáhttán/sáhttit<vblex><iv><indic><pret><conneg>
+
+!!!!!!!!!!!!!!!
+!! TAG-REWRITE RULES
+!!!!!!!!!!!!!!!
+number > number : du pl ;
+case > case : loc ine ;
+
+!!!!!!!!!!!!!!!
+!! MACROS
+!!!!!!!!!!!!!!!
+
+
+!!!!!!!!!!!!!!!
+!! REDUCTION RULES
+!!!!!!!!!!!!!!!
+
+AP -> %adj { 1 }
+    | adv %adj { 1 _ 2 }
+    ;
+AdvP -> %adv { 1 }
+      | %adv cnjcoo adv { 1 _ 2 _ 3 }
+      | PP { 1 }
+      ;
+
+! Compounding (does not work)
+N -> n { %1 }
+   | ncomp %n { 1(ncomp) 2 }
+   ;
+!NP -> "nn" n.*.cmp n% { 1  %2 }
+
+NP ->              %n { 1 }
+    | "dn" prn.dem %n { 1[case = (if (1.case = nom) nom
+                            else gen)]
+			    _ %2 }
+    ;
+
+NP -> "an" adj %n { 1[case=2.case, number=2.number] _ 2 };
+NP -> %prn { 1 } ;
+NP -> %np { 1 } ;
+NP -> %NP cnjcoo NP { 1 _ 2 _ 3 } ;
+
+
+
+INFV -> vblex.*.infinite { 1(vblex_inf) };
+IMVPa -> INFV { 1 }
+       | AdvP IMVPa { 1 _ 2 }
+       ;
+IMVPb -> IMVPa { 1 }
+       | NP IMVPa { 1 _ 2 }
+       | AdvP IMVPb { 1 _ 2 }
+       ;
+IMVP -> IMVPb { 1 }
+      | IMVPb NP { 1 _ 2 }
+      | IMVPb AdvP { 1 _ 2 }
+      | IMVPb NP AdvP { 1 _ 2 _ 3 }
+      ;
+
+VP -> %vblex { 1 }
+    | %vblex IMVP { 1 _ 2 }
+    | %vblex      NP     { 1 _ 2 }
+    | %vblex AdvP NP     { 1 _ 2 _ 3 }
+    | %vblex     AdvP     { 1 _ 2 } 
+    | %vblex     AdvP adj { 1 _ 2 _ 3 }
+    ;
+
+VPP -> adv VP { 1 _ 2 } ;
+
+!pcle -> %pcle { 1 } ;
+
+S -> NP VP { 1 _ 2 }
+   | AdvP NP VP { 1 _ 2 _ 3  }
+   ;
+VPPRED -> VP IMVP { 1 _ 2 }
+        | VP NP   { 1 _ 2 }
+        ;
+
+negv -> 10: %ii@vblex { 1(neg)[person=1.person, number=1.number] } ;
+connegv -> 10: %vblex.*.conneg {  1(conneg) } ;
+
+ConnegPa -> connegv { 1 }
+       | AdvP ConnegPa { 1 _ 2 }
+       ;
+ConnegPb -> ConnegPa { 1 }
+       | NP ConnegPa { 1 _ 2 }
+       | AdvP ConnegPb { 1 _ 2 }
+       ;
+ConnegP -> ConnegPa { 1 }
+      | ConnegPb IMVP { 1 _ 2 }
+      | ConnegPb NP { 1 _ 2 }
+      | ConnegPb NP AdvP { 1 _ 2 _ 3 }
+      ;
+
+NegP -> negv ConnegP { 1[mood=2.mood, person=1.person, number=1.number] _ 2 } ;
+
+PP -> "pp"        NP        post { 1 _ 2 };
+    
+NumP -> num { 1 }
+      | num NP { 1 _ 2 } ;
+
+
+
+!( endre output, dvs ein av dei tinga vi har definert i output rules )
+![ endre verdi brukt av output pattern ]
