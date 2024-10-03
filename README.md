@@ -19,7 +19,7 @@ They are a.o. used in the development of language resources in the [GiellaLT inf
 
 # Install
 
-1. Download the [latest release](releases)
+1. Download the [latest release](https://github.com/divvun/see-modes/releases)
 1. Unpack the downloaded package if it was not automatically unpacked
 1. Double click on the SEE modes you want to install, and accept to install them
 
