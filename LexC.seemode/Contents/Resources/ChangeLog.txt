@@ -1,3 +1,6 @@
+Changes with Version 2.6.0
+    *) Add support for guessing lexc entries for a list of words
+
 Changes with Version 2.5.4
     *) Bugfix: Use double quotes around pathname, to make the shell cooperate
 
