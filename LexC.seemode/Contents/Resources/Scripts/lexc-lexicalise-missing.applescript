@@ -29,17 +29,19 @@ set ScriptPathName to UnixPath & ScriptName
 
 -- define the path to the language folder
 tell application "SubEthaEdit"
-	try
-		set Docpath to file of front document
-		set Docname to name of front document
-set UnixPath to POSIX path of (Docpath as text)
-set the basedir to do shell script "sti=" & (UnixPath as text) & "; echo \"${sti%/src*}\""
-set the fstlang to do shell script "echo " & (basedir as text) & "| rev | cut -d'-' -f1 | rev"
-	on error
-		display dialog "Kva for språk arbeider du med?" default answer "" with title "Skriv inn språkkode"
-		set fstlang to the text returned of the result
-	end try
+	set Docpath to file of front document
+	set Docname to name of front document
 end tell
+
+-- If the document has never been saved, then ask for the language:
+if Docpath is missing value then
+	display dialog "Du må lagra dokumentet ein stad i 'src/' i språket du arbeider med!" with title "Dokumentet må lagrast" with icon caution
+	return
+else
+	set UnixPath to POSIX path of (Docpath as text)
+	set the basedir to do shell script "sti=" & (UnixPath as text) & "; echo \"${sti%/src*}\""
+	set the fstlang to do shell script "echo " & (basedir as text) & "| rev | cut -d'-' -f1 | rev"
+end if
 
 display dialog "The document name is: " & Docname & "
 The basedir is: " & (basedir as text) & ".
