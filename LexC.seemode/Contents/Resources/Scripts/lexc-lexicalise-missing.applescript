@@ -58,6 +58,7 @@ set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.U
 
 set shellresult to do shell script shellscriptString without altering line endings
 
+-- restore clipboard, and update the document with the output of the shellscript:
 tell application "SubEthaEdit"
 	set the clipboard to savedClipboard
 	
