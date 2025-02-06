@@ -5,7 +5,7 @@ This is a syntax colouring mode for the LexC language as documented in:
 
 Kenneth R. Beesley & Lauri Karttunen (2003): Finite State Morphology
 
-In addition to the language syntax, it has support for a couple of (not so) widely used conventions:
+In addition to the language syntax, it has support for a couple of conventions:
 
 - analysis tags will be correctly coloured if on the form +Tag, e.g. +Nom, +Sg, etc.
   as well as in the style <N><Pl><nom> (Apertium style)
@@ -17,6 +17,8 @@ In addition to the language syntax, it has support for a couple of (not so) wide
 - Triggers of the form %^xxUPPER, often used as multichar symbos to trigger morphophonological processes
 
 The mode makes heavy use of boldfacing, and is best viewed by turning on the synthesised boldface and italic (Preferences > Advanced > Font Rendering > Add synthesised bold and italic to fonts)
+
+The mode also includes a number of built-in scripts to format lexc entries, and to sort them in various ways.
 
 There are a couple of known bugs, please see the Changelog.txt file for details.
 
