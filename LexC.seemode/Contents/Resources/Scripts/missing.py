@@ -17,6 +17,7 @@ Make suggestions for a whole corpus, save it to a file
         --output missing_sme_corpus.lexc
 """
 
+from __future__ import annotations
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from collections import defaultdict
 from dataclasses import dataclass
