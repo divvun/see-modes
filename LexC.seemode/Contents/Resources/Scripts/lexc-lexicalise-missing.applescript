@@ -60,7 +60,7 @@ The environment is:
 -- notice the export preamble which is essential to make pbpaste work with
 -- utf8 content.
 -- DO THE ACTUAL LEXICALISATION:
-set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.UTF-8; export GTLANGS=" & gtlangsdir & " ; pbpaste | $DEVPATH/usr/bin/python3 \"" & ScriptPathName & "\" -l " & fstlang & " -c " & Docname
+set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.UTF-8; export PATH=/usr/local/bin:$PATH; export GTLANGS=" & gtlangsdir & " ; pbpaste | $DEVPATH/usr/bin/python3 \"" & ScriptPathName & "\" -l " & fstlang & " -c " & Docname
 
 set shellresult to do shell script shellscriptString without altering line endings
 
