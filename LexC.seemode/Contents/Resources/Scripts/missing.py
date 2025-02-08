@@ -17,7 +17,6 @@ Make suggestions for a whole corpus, save it to a file
         --output missing_sme_corpus.lexc
 """
 
-from __future__ import annotations
 from argparse import ArgumentParser, RawDescriptionHelpFormatter
 from collections import defaultdict
 from dataclasses import dataclass
@@ -26,7 +25,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, Optional
 
 
 @dataclass
@@ -67,7 +66,7 @@ LEXC_CONTENT_RE = re.compile(
 )
 
 
-def parse_line(old_match, lexc_filename: str, lexicon_name: str) -> LexcEntry | None:
+def parse_line(old_match, lexc_filename: str, lexicon_name: str) -> Optional[LexcEntry]:
     """Parse a lexc line.
 
     Arguments:
@@ -101,7 +100,7 @@ def parse_line(old_match, lexc_filename: str, lexicon_name: str) -> LexcEntry | 
 
 def make_lexc_entry(
     line: str, lexc_filename: str, lexicon_name: str
-) -> dict[str, str] | None:
+) -> Optional[dict[str, str]]:
     """Turn line into a dict using regexes.
 
     Args:
@@ -536,27 +535,64 @@ def parse_args():
     parser.add_argument(
         "-c", "--comment", help="A freestyle comment to add to the output", default=""
     )
+    parser.add_argument(
+        "-r",
+        "--lang-root",
+        help="The root of the language directory",
+        default=None,
+        type=Path,
+    )
 
     return parser.parse_args()
+
+
+def get_language_parent(lang_root: Optional[str]) -> Optional[Path]:
+    if lang_root is None:
+        lang_parent = os.getenv("GTLANGS")
+        if not lang_parent:
+            raise SystemExit("GTLANGS environment variable not set")
+    else:
+        lang_parent = lang_root
+
+    lang_path = Path(lang_parent)
+    if not lang_path.exists():
+        raise SystemExit(f"Could not find the language directory {lang_path}")
+
+    return lang_path
+
+
+def get_analysers(
+    normative_analyser: Optional[str],
+    descriptive_analyser: Optional[str],
+    lang_directory: Path,
+    language: str,
+) -> tuple[Path, Path]:
+    if normative_analyser is not None and descriptive_analyser is not None:
+        return Path(normative_analyser), Path(descriptive_analyser)
+
+    for prefix in [
+        lang_directory / "src/fst/",
+        Path("/usr/local/share/giella/") / language,
+        Path("/usr/share/giella/") / language,
+    ]:
+        normative_path = prefix / "analyser-gt-norm.hfstol"
+        descriptive_path = prefix / "analyser-gt-desc.hfstol"
+
+        if normative_path.exists() and descriptive_path.exists():
+            return normative_path, descriptive_path
+
+    raise SystemExit("Could not find the normative and descriptive analyser.")
 
 
 def main():
     # Setup
     args = parse_args()
 
-    lang_parent = os.getenv("GTLANGS")
-    if not lang_parent:
-        raise SystemExit("GTLANGS environment variable not set")
-    lang_directory = Path(lang_parent) / f"lang-{args.language}"
-    normative_analyser = (
-        lang_directory / "src/fst/analyser-gt-norm.hfstol"
-        if args.normative_fst is None
-        else args.normative_fst
-    )
-    descriptive_analyser = (
-        lang_directory / "src/fst/analyser-gt-desc.hfstol"
-        if args.descriptive_fst is None
-        else args.descriptive_fst
+    lang_parent = get_language_parent(args.lang_root)
+    lang_directory = lang_parent / f"lang-{args.language}"
+
+    normative_analyser, descriptive_analyser = get_analysers(
+        args.normative_fst, args.descriptive_fst, lang_directory, args.language
     )
 
     # Read lexc files
