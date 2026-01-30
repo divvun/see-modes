@@ -4,8 +4,6 @@ This repo holds syntax modes for [SubEthaEdit](https://subethaedit.net) (SEE amo
 
 * [ConstraintGrammar](https://visl.sdu.dk/cg3.html)
 * Corpus analysis (Constraint Grammar output)
-* [JSPWiki](https://jspwiki-wiki.apache.org/Wiki.jsp?page=TextFormattingRules) (this mode will
-  soon be of less interest as most documents are now converted to Markdown)
 * [LexC](https://fomafst.github.io/morphtut.html)
 * Twolc
 * Typos
