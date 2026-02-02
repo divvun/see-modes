@@ -25,6 +25,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import logging
 from typing import Iterable, Iterator, Optional
 
 
@@ -224,7 +225,7 @@ def parse_hfst_output(
 
 
 def filter_derivations_and_compounds(
-    parsed_hfst_output: dict[str, list[str]]
+    parsed_hfst_output: dict[str, list[str]],
 ) -> dict[str, list[str]]:
     """Pick stems that are unlexicalised compounds or derivations.
 
@@ -269,13 +270,20 @@ def analyse_expressions(fst: Path, lines: Iterable[str]) -> list[str]:
     Returns:
         The analyses of the expressions.
     """
-    command = ["hfst-lookup", fst.as_posix()]
+    # Use shell=True to avoid macOS sandbox restrictions
+    # The shell will find hfst-lookup in PATH
+    command = f"hfst-lookup '{fst.as_posix()}'"
     result = subprocess.run(
         command,
+        shell=True,
         capture_output=True,
         check=False,
         input="\n".join(lines).encode("utf-8"),
     )
+
+    if result.returncode != 0 and b"not found" in result.stderr:
+        raise SystemExit("Could not find hfst-lookup. Please install HFST tools (e.g., via Homebrew: brew install hfst)")
+
     return [
         line.strip()
         for line in result.stdout.decode("utf-8").split("\n")
@@ -283,10 +291,17 @@ def analyse_expressions(fst: Path, lines: Iterable[str]) -> list[str]:
     ]
 
 
-def get_longest_cmp_stem(analyses: list[str]) -> str:
+def get_longest_cmp_stem(suffix: str, analyses: list[str]) -> str:
     """Get the longest last compound stem from a list of analyses."""
+    for analysis in analyses:
+        logging.debug(f"{analysis=}")
+
     return max(
-        [analysis.split("#")[-1].split("+")[0] for analysis in analyses],
+        [
+            analysis.split("#")[-1].split("+")[0]
+            for analysis in analyses
+            if analysis.split("#")[-1].split("+")[0].endswith(suffix)
+        ],
         key=len,
     )
 
@@ -306,7 +321,15 @@ def lexicalise_compound(
     Returns:
         An iterator of lexicalised lexc entries.
     """
-    longest_last_stem = get_longest_cmp_stem(analyses)
+    try:
+        longest_last_stem = get_longest_cmp_stem(
+            suffix=unlexicalised_compound_stem[-1], analyses=analyses
+        )
+    except ValueError:
+        logging.debug(
+            f"Could not find a compound stem for {unlexicalised_compound_stem}"
+        )
+        return iter([])
 
     if longest_last_stem not in lexc_dict:
         raise ValueError(f"Longest stem {longest_last_stem} not found in lexc")
@@ -316,6 +339,7 @@ def lexicalise_compound(
     ]
     matching_lexc_entries = lexc_dict.get(longest_last_stem, [])
 
+    logging.debug(f"{prefix=} {unlexicalised_compound_stem=} {longest_last_stem=}")
     return (
         LexcEntry(
             stem=f"{prefix}{longest_last_stem}",
@@ -364,12 +388,24 @@ def make_missing_lexc_entry(
         A modified version of the incoming lexc entry for the missing stem.
     """
     hfst_prefix = hfst_stem[: hfst_stem.find(common_ending)]
-    lower_prefix = lexc_entry.stem[: lexc_entry.stem.find(common_ending)]
+    old_prefix = lexc_entry.stem[: lexc_entry.stem.find(common_ending)]
+    old_lower = lexc_entry.lower
 
+    # Skip matching chars in old_prefix vs old_lower
+    i, j = 0, 0
+    while i < len(old_prefix) and j < len(old_lower):
+        if old_prefix[i] == old_lower[j]:
+            i += 1
+            j += 1
+        else:
+            j += 1
+
+    new_lower = hfst_prefix + old_lower[j:]
+    logging.debug(f"{hfst_stem=} {common_ending=} {lexc_entry.stem=} {new_lower=}")
     return LexcEntry(
         stem=hfst_stem,
         tags=lexc_entry.tags,
-        lower=f"{hfst_prefix}{lexc_entry.lower[len(lower_prefix) :]}",
+        lower=new_lower,
         contlex=lexc_entry.contlex,
         filename=lexc_entry.filename,
         parent_lexicon=lexc_entry.parent_lexicon,
@@ -405,7 +441,7 @@ def get_shortest_matching_lexc_entries(
     ]
 
 
-def print_typos(descriptive_typos: dict[str, list[str]]) -> None:
+def print_typos(descriptive_typos: dict[str, list[str]]) -> str:
     """Print typos with their analyses.
 
     Args:
@@ -413,20 +449,20 @@ def print_typos(descriptive_typos: dict[str, list[str]]) -> None:
             descriptive analyser, but not in the normative analyser.
     """
     if descriptive_typos:
-        print("\n\n!!! Typos !!!")
-        "\n".join(
+        return "\n\n!!! Typos !!!\n" + "\n".join(
             f"! {hfst_stem}\n"
             + "\n".join(f"!\t{analysis}" for analysis in analyses)
             + "\n"
             for hfst_stem, analyses in descriptive_typos.items()
         )
+    return ""
 
 
 def print_lexicalised_compounds(
     lexc_dict: dict[str, list[LexcEntry]],
     compounds_and_derivations_only: dict[str, list[str]],
     comment_string: str,
-) -> None:
+) -> str:
     """Lexicalise compounds and derivations
 
     Present tentive lexc entries to the linguist.
@@ -437,25 +473,22 @@ def print_lexicalised_compounds(
             lexicalised.
     """
     if compounds_and_derivations_only:
-        print("\n\n!!! Compounds and derivations only !!!")
-        print(
-            "\n".join(
-                [
-                    str(lexc_entry) + comment_string
-                    for hfst_stem, analyses in compounds_and_derivations_only.items()
-                    for lexc_entry in lexicalise_compound(
-                        hfst_stem, analyses, lexc_dict
-                    )
-                ]
-            )
+        return "\n\n!!! Compounds and derivations only !!!\n" + "\n".join(
+            [
+                str(lexc_entry) + comment_string
+                for hfst_stem, analyses in compounds_and_derivations_only.items()
+                for lexc_entry in lexicalise_compound(hfst_stem, analyses, lexc_dict)
+            ]
         )
+
+    return ""
 
 
 def print_missing_suggestions(
     lexc_dict: dict[str, list[LexcEntry]],
     missing_desc_words: set[str],
     comment_string: str,
-) -> None:
+) -> Iterator[str]:
     """Print suggestions for missing words in the descriptive analyser.
 
     Match the missing words with the lexc dictionary and present tentive lexc
@@ -477,18 +510,15 @@ def print_missing_suggestions(
                 for lexc_entry in lexc_dict[stem]
             ]
         )
-        print(
-            "\n".join(
-                str(
-                    make_missing_lexc_entry(
-                        desc_missing_word, common_ending, matching_entry
-                    )
+        yield "\n".join(
+            str(
+                make_missing_lexc_entry(
+                    desc_missing_word, common_ending, matching_entry
                 )
-                + comment_string
-                for matching_entry in matching_entries
             )
-        )
-        print()
+            + comment_string
+            for matching_entry in matching_entries
+        ) + "\n"
 
 
 def parse_args():
@@ -510,7 +540,12 @@ def parse_args():
         help="The language to analyse. This should be the language code, e.g., 'sme' for Northern Sami.",
     )
     parser.add_argument(
-        "-o", "--output", default=sys.stdout, type=Path, help="output file"
+        "-o",
+        "--output",
+        default=sys.stdout,
+        type=Path,
+        dest="outfile",
+        help="output file",
     )
     parser.add_argument(
         "-t",
@@ -541,6 +576,11 @@ def parse_args():
         help="The root of the language directory",
         default=None,
         type=Path,
+    )
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        help="Print debug information",
     )
 
     return parser.parse_args()
@@ -588,6 +628,8 @@ def main():
     # Setup
     args = parse_args()
 
+    logging.basicConfig(level=logging.DEBUG if args.debug else logging.INFO)
+
     lang_parent = get_language_parent(args.lang_root)
     lang_directory = lang_parent / f"lang-{args.language}"
 
@@ -616,11 +658,11 @@ def main():
         fst=descriptive_analyser, lines=missing_norm_words
     )
 
-    input_filename = (
-        f" Inputfile: {str(args.infile.absolute()).replace(lang_parent, '$GTLANGS')}"
-        if args.infile != sys.stdin
-        else ""
-    )
+    if args.infile == sys.stdin:
+        input_filename = ""
+    else:
+        f = str(args.infile.absolute()).replace(str(lang_parent), "$GTLANGS")
+        input_filename = f" Inputfile: {f}"
 
     comment = f" Comment: {args.comment}" if args.comment else ""
 
@@ -632,25 +674,39 @@ def main():
 
     # The words unknown to both the normative and the descriptive analyser
     # are given as the second argument.
-    print_missing_suggestions(
-        lexc_dict=lexc_dict,
-        missing_desc_words={
-            line.split("\t")[0] for line in descriptive_output if line.endswith("inf")
-        },
-        comment_string=comment + input_filename,
-    )
-    print_lexicalised_compounds(
-        lexc_dict,
-        compounds_and_derivations_only=filter_derivations_and_compounds(
-            parse_hfst_output(
-                {line for line in norm_output if not line.endswith("inf")}
+    output_stream = sys.stdout if args.outfile == sys.stdout else args.outfile.open("w")
+    print(
+        "\n".join(
+            print_missing_suggestions(
+                lexc_dict=lexc_dict,
+                missing_desc_words={
+                    line.split("\t")[0]
+                    for line in descriptive_output
+                    if line.endswith("inf")
+                },
+                comment_string=comment + input_filename,
             )
         ),
-        comment_string=comment + input_filename,
+        file=output_stream,
+    )
+    print(
+        print_lexicalised_compounds(
+            lexc_dict,
+            compounds_and_derivations_only=filter_derivations_and_compounds(
+                parse_hfst_output(
+                    {line for line in norm_output if not line.endswith("inf")}
+                )
+            ),
+            comment_string=comment + input_filename,
+        ),
+        file=output_stream,
     )
     if not args.no_typos:
-        print_typos(
-            descriptive_typos=remove_typos(parse_hfst_output(descriptive_output))
+        print(
+            print_typos(
+                descriptive_typos=remove_typos(parse_hfst_output(descriptive_output))
+            ),
+            file=output_stream,
         )
 
 
