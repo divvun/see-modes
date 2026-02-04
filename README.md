@@ -15,9 +15,12 @@ They are a.o. used in the development of language resources in the [GiellaLT inf
 
 **Typos** files are simple TAB separated, two column files containing real typos and their corrections. These files are used for testing spelling checkers, and the syntax colouring helps us check that the content is entered correctly.
 
-# What's New in 0.3.0
+# What's New in 0.3.1
 
-**LexC mode 2.7.0** with major improvements:
+**LexC mode 2.7.1** bugfix:
+- 🐛 Fixed trailing newline handling in output
+
+**LexC mode 2.7.0** (from 0.3.0) major improvements:
 - 🆕 External [Divvun-SEE-helper](https://github.com/divvun/divvun-see-helper) bypasses macOS sandbox restrictions
 - ✨ Words without suggestions are now preserved in output
 - 🧹 Automatic cleanup of extra blank lines

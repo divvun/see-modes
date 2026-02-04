@@ -1,3 +1,6 @@
+Changes with Version 2.7.1
+    *) Bugfix: Ensure exactly one trailing newline at end of output
+
 Changes with Version 2.7.0
     *) Improvement: Lexicalise missing now uses external Divvun-SEE-helper.app to bypass sandbox restrictions
     *) Improvement: Words without suggestions are now preserved in the output

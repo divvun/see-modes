@@ -169,9 +169,23 @@ if untouched:
 # Clean up extra newlines - max 2 consecutive newlines
 result = re.sub(r\"\\n{3,}\", \"\\n\\n\", result)
 
-print(result)
+# Ensure exactly one trailing newline
+if result and not result.endswith(\"\\n\"):
+    result += \"\\n\"
+
+print(result, end=\"\")
 '"
 	set shellresult to combinedResult
+end if
+
+-- Ensure exactly one trailing newline
+if shellresult does not end with linefeed then
+	set shellresult to shellresult & linefeed
+else if shellresult ends with (linefeed & linefeed) then
+	-- Remove extra trailing newlines
+	repeat while shellresult ends with (linefeed & linefeed)
+		set shellresult to text 1 thru -2 of shellresult
+	end repeat
 end if
 
 -- restore clipboard, and update the document with the output of the shellscript:
