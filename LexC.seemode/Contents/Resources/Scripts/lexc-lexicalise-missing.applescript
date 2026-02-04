@@ -78,7 +78,7 @@ set jsonData to "{\"operation\": \"analyze_missing\", \"lang\": \"" & fstlang & 
 do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; echo " & quoted form of jsonData & " | pbcopy"
 
 -- Launch helper app
-set appPath to realHome & "/Applications/HFST-Lookup-Helper.app"
+set appPath to realHome & "/Applications/Divvun-SEE-helper.app"
 
 -- Save the JSON we just wrote
 set sentJSON to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; pbpaste"
@@ -110,7 +110,7 @@ repeat while attempt < maxAttempts
 end repeat
 
 if resultJSON is "" then
-	display dialog "Tidsavbrot: Fekk ikkje svar frŒ HFST-Lookup-Helper. Sjekk ~/hfst-helper-debug.log for detaljar." with title "Feil" with icon caution
+	display dialog "Tidsavbrot: Fekk ikkje svar frŒ Divvun-SEE-helper. Sjekk ~/divvun-see-helper-debug.log for detaljar." with title "Feil" with icon caution
 	return
 end if
 
