@@ -89,7 +89,7 @@ on error
 Appen må installerast i:
 " & appDir & "
 
-Kontakt Divvun for installasjonsinstruksjonar." with title "Manglande helper-app" with icon caution buttons {"OK"} default button "OK"
+Meir info: https://github.com/divvun/divvun-see-helper." with title "Manglande helper-app" with icon caution buttons {"OK"} default button "OK"
 	return
 end try
 -- Save the JSON we just wrote
