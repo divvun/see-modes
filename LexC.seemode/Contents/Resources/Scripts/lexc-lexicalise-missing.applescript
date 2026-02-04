@@ -36,7 +36,7 @@ end tell
 
 -- If the document has never been saved, then ask for the language:
 if Docpath is missing value then
-	display dialog "Du må lagra dokumentet ein stad i 'src/' i språket du arbeider med!" with title "Dokumentet må lagrast" with icon caution
+	display dialog "Du m√• lagra dokumentet ein stad i 'src/' i spr√•ket du arbeider med!" with title "Dokumentet m√• lagrast" with icon caution
 	return
 else
 	-- but if it has been saved, identify the repo root dir and the language code based on the full path of the document:
@@ -86,7 +86,7 @@ try
 on error
 	display dialog "Divvun-SEE-helper.app er ikkje installert!
 
-Appen må installerast i:
+Appen m√• installerast i:
 " & appDir & "
 
 Kontakt Divvun for installasjonsinstruksjonar." with title "Manglande helper-app" with icon caution buttons {"OK"} default button "OK"
@@ -99,7 +99,7 @@ set sentJSON to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UT
 try
 	do shell script "open " & quoted form of appPath
 on error errMsg
-	display dialog "Feil ved køyring av helper: " & errMsg with title "Feil" with icon caution
+	display dialog "Feil ved k√∏yring av helper: " & errMsg with title "Feil" with icon caution
 	return
 end try
 
@@ -122,7 +122,7 @@ repeat while attempt < maxAttempts
 end repeat
 
 if resultJSON is "" then
-	display dialog "Tidsavbrot: Fekk ikkje svar frå Divvun-SEE-helper. Sjekk ~/divvun-see-helper-debug.log for detaljar." with title "Feil" with icon caution
+	display dialog "Tidsavbrot: Fekk ikkje svar fr√• Divvun-SEE-helper. Sjekk ~/divvun-see-helper-debug.log for detaljar." with title "Feil" with icon caution
 	return
 end if
 
