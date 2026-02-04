@@ -49,20 +49,73 @@ end if
 set the environment to do shell script "env"
 
 -- debug dialog:
-display dialog "The document name is: " & Docname & "
-The basedir is: " & (basedir as text) & ".
-The GTLANGS dir is: " & gtlangsdir & ".
-The language is: " & fstlang & "
-The environment is:
-" & environment
+-- display dialog "The document name is: " & Docname & "
+-- The basedir is: " & (basedir as text) & ".
+-- The GTLANGS dir is: " & gtlangsdir & ".
+-- The language is: " & fstlang & "
+-- The environment is:
+-- " & environment
 
 -- the following is a command to call an external script, in this case python
 -- notice the export preamble which is essential to make pbpaste work with
 -- utf8 content.
 -- DO THE ACTUAL LEXICALISATION:
-set shellscriptString to "export DEVPATH=$(xcode-select -p); export LANG=en_US.UTF-8; export PATH=/usr/local/bin:$PATH; export GTLANGS=" & gtlangsdir & " ; pbpaste | $DEVPATH/usr/bin/python3 \"" & ScriptPathName & "\" -l " & fstlang & " -c " & Docname
 
-set shellresult to do shell script shellscriptString without altering line endings
+-- Get path to python3 that works in sandbox
+set DEVPATH to do shell script "xcode-select -p"
+set PYTHON3 to DEVPATH & "/usr/bin/python3"
+
+-- Get real home directory (not sandboxed container) using dscl
+set realHome to do shell script "dscl . -read /Users/$(whoami) NFSHomeDirectory | awk '{print $2}'"
+
+-- Use base64 command to encode clipboard, then construct JSON manually
+set base64Input to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; pbpaste | base64"
+
+-- Construct JSON manually (base64 is pure ASCII, safe for JSON)
+set jsonData to "{\"operation\": \"analyze_missing\", \"lang\": \"" & fstlang & "\", \"gtlangs\": \"" & gtlangsdir & "\", \"docname\": \"" & Docname & "\", \"input_words_b64\": \"" & base64Input & "\"}"
+
+-- Write JSON to clipboard
+do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; echo " & quoted form of jsonData & " | pbcopy"
+
+-- Launch helper app
+set appPath to realHome & "/Applications/HFST-Lookup-Helper.app"
+
+-- Save the JSON we just wrote
+set sentJSON to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; pbpaste"
+
+-- Launch helper app
+try
+	do shell script "open " & quoted form of appPath
+on error errMsg
+	display dialog "Feil ved k¿yring av helper: " & errMsg with title "Feil" with icon caution
+	return
+end try
+
+-- Poll for result (max 30 seconds)
+delay 1
+set maxAttempts to 58
+set attempt to 0
+set resultJSON to ""
+
+repeat while attempt < maxAttempts
+	delay 0.5
+	set attempt to attempt + 1
+	set clipboardNow to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; pbpaste"
+	
+	-- Check if clipboard changed and contains JSON response
+	if clipboardNow is not equal to sentJSON and clipboardNow starts with "{\"status\"" then
+		set resultJSON to clipboardNow
+		exit repeat
+	end if
+end repeat
+
+if resultJSON is "" then
+	display dialog "Tidsavbrot: Fekk ikkje svar frŒ HFST-Lookup-Helper. Sjekk ~/hfst-helper-debug.log for detaljar." with title "Feil" with icon caution
+	return
+end if
+
+-- Parse response using sandbox-safe python3 with printf to preserve newlines
+set shellresult to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; printf '%s' " & quoted form of resultJSON & " | " & PYTHON3 & " -c 'import sys, json; data=json.load(sys.stdin); status=data.get(\"status\"); output=data.get(\"output\", \"\"); print(output if status==\"success\" else \"ERROR: \" + data.get(\"message\", \"Unknown error\"))'"
 
 -- restore clipboard, and update the document with the output of the shellscript:
 tell application "SubEthaEdit"
