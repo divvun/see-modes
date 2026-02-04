@@ -126,8 +126,53 @@ if resultJSON is "" then
 	return
 end if
 
--- Parse response using sandbox-safe python3 with printf to preserve newlines
+-- Parse response and combine with original words
+-- Get original words from clipboard (before helper overwrote it)
+set originalWords to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; printf '%s' " & quoted form of sentJSON & " | " & PYTHON3 & " -c 'import sys, json, base64; data=json.load(sys.stdin); print(base64.b64decode(data[\"input_words_b64\"]).decode(\"utf-8\"))'"
+
+-- Parse response from helper
 set shellresult to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; printf '%s' " & quoted form of resultJSON & " | " & PYTHON3 & " -c 'import sys, json; data=json.load(sys.stdin); status=data.get(\"status\"); output=data.get(\"output\", \"\"); print(output if status==\"success\" else \"ERROR: \" + data.get(\"message\", \"Unknown error\"))'"
+
+-- If we got suggestions, combine them with untouched words
+if shellresult does not start with "ERROR:" and shellresult is not "" then
+	-- Use Python to extract lemmas from suggestions and filter original words
+	set combinedResult to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; " & PYTHON3 & " -c '
+import sys, re
+
+# Read suggestions and original words from arguments
+suggestions = \"\"\"" & shellresult & "\"\"\"
+original_words = \"\"\"" & originalWords & "\"\"\"
+
+# Extract lemmas that got suggestions
+suggested_lemmas = set()
+for line in suggestions.strip().split(\"\\n\"):
+    if line.strip() and not line.startswith(\"!\"):
+        # Match pattern like \"lemma+Tag:form\" or \"lemma:lemma\"
+        match = re.match(r\"^([^+:]+)\", line)
+        if match:
+            suggested_lemmas.add(match.group(1))
+
+# Filter original words - keep only those without suggestions
+untouched = []
+for word in original_words.strip().split(\"\\n\"):
+    word = word.strip()
+    if word and word not in suggested_lemmas:
+        untouched.append(word)
+
+# Combine: suggestions first, then untouched words
+result = suggestions.strip()
+if untouched:
+    if result:
+        result += \"\\n\"
+    result += \"\\n\".join(untouched)
+
+# Clean up extra newlines - max 2 consecutive newlines
+result = re.sub(r\"\\n{3,}\", \"\\n\\n\", result)
+
+print(result)
+'"
+	set shellresult to combinedResult
+end if
 
 -- restore clipboard, and update the document with the output of the shellscript:
 tell application "SubEthaEdit"
