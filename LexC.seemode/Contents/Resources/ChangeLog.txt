@@ -1,3 +1,9 @@
+Changes with Version 2.7.0
+    *) Improvement: Lexicalise missing now uses external Divvun-SEE-helper.app to bypass sandbox restrictions
+    *) Improvement: Words without suggestions are now preserved in the output
+    *) Improvement: Extra blank lines are removed from suggestions (max one blank line between entries)
+    *) New feature: Check for helper app installation and show helpful error message if missing
+
 Changes with Version 2.6.0
     *) Add support for guessing lexc entries for a list of words
 

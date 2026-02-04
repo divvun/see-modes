@@ -20,6 +20,9 @@ The mode makes heavy use of boldfacing, and is best viewed by turning on the syn
 
 The mode also includes a number of built-in scripts to format lexc entries, and to sort them in various ways.
 
+**Lexicalise missing function (⌃⌥⌘M):**
+This function analyzes a list of words and suggests lexc entries for them using the missing.py tool from giella-core. The function requires Divvun-SEE-helper.app to be installed in ~/Applications/ to bypass macOS sandbox restrictions. Words that don't get suggestions are preserved in the output.
+
 There are a couple of known bugs, please see the Changelog.txt file for details.
 
 Feedback welcome to feedback@divvun.no
