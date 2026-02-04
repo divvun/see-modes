@@ -79,7 +79,19 @@ do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; echo " & qu
 
 -- Launch helper app
 set appPath to realHome & "/Applications/Divvun-SEE-helper.app"
+set appDir to realHome & "/Applications/"
+-- Check if helper app exists
+try
+	do shell script "test -d " & quoted form of appPath
+on error
+	display dialog "Divvun-SEE-helper.app er ikkje installert!
 
+Appen må installerast i:
+" & appDir & "
+
+Kontakt Divvun for installasjonsinstruksjonar." with title "Manglande helper-app" with icon caution buttons {"OK"} default button "OK"
+	return
+end try
 -- Save the JSON we just wrote
 set sentJSON to do shell script "export LANG=en_US.UTF-8; export LC_ALL=en_US.UTF-8; pbpaste"
 
