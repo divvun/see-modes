@@ -103,9 +103,9 @@ on error errMsg
 	return
 end try
 
--- Poll for result (max 30 seconds)
+-- Poll for result (max 60 seconds)
 delay 1
-set maxAttempts to 58
+set maxAttempts to 118
 set attempt to 0
 set resultJSON to ""
 
